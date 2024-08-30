@@ -10,6 +10,9 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@react-firebase/auth": "^0.2.10",
+    "@react-firebase/database": "^0.3.11",
+    "firebase": "^10.13.1",
     "@material-tailwind/react": "^2.1.9",
     "react": "18.2.0",
     "react-dom": "18.2.0",
