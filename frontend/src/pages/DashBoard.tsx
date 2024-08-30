@@ -24,14 +24,14 @@ export default function DashBoard() {
     }
   }, [location.search, location.pathname]);
   return (
-    <div className="flex h-screen w-screen ">
+    <div className="flex h-screen w-screen">
       <div className="w-1/6 h-full">
         <SideBar />
       </div>
       <div className="h-full w-5/6 overflow-y-auto">
         <NavigationBar />
         <div>
-          <div className="ml-3 mr-3">
+          <div className="mx-2">
             {tab === "" && <Home />}
             {tab === "cloth" && <Cloths />}
           </div>
