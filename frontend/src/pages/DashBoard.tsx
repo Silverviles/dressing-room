@@ -2,9 +2,9 @@ import { useEffect, useState } from "react";
 import NavigationBar from "../common/NavigationBar";
 import SideBar from "../common/SideBar";
 import Home from "./Home";
-import Cloths from "./Cloths";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
+import ClothMenu from "./ClothMenu";
 
 export default function DashBoard() {
   const [tab, setTab] = useState("home");
@@ -30,7 +30,7 @@ export default function DashBoard() {
         <div>
           <div className="mx-2">
             {tab === "" && <Home />}
-            {tab === "cloth" && <Cloths />}
+            {tab === "cloth" && <ClothMenu />}
           </div>
         </div>
       </div>
