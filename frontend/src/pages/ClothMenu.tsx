@@ -13,21 +13,92 @@ import {
   Select,
   Typography,
 } from "@material-tailwind/react";
-import { addDoc, collection } from "firebase/firestore";
-import { useState } from "react";
-import { db } from "../utils/firebase";
+import {
+  addDoc,
+  collection,
+  deleteDoc,
+  doc,
+  getDocs,
+} from "firebase/firestore";
+import { useEffect, useState } from "react";
+import { db, storage } from "../utils/firebase";
+import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
 
 export default function ClothMenu() {
+  const [file, setFile] = useState("");
+  const [cloths, setCloths] = useState([]);
+  const [percentage, setPercentage] = useState(null);
   const [clothDetails, setClothDetails] = useState({
     clothName: "",
     clothType: "",
     brand: "",
     image: "",
   });
+
+  // Fetch Cloths from Firestore
+  useEffect(() => {
+    const fetchCloths = async () => {
+      const cloth_list = [];
+      try {
+        const querySnapshot = await getDocs(collection(db, "cloths"));
+        querySnapshot.forEach((doc) => {
+          cloth_list.push({ id: doc.id, ...doc.data() });
+        });
+        setCloths(cloth_list);
+      } catch (error) {
+        console.error("Error fetching cloths: ", error);
+      }
+    };
+
+    fetchCloths();
+  }, []);
+
+  console.log("cloths: ", cloths);
+
+  // Handle OnChange Input
   const handleOnChangeSubmit = (e) => {
     setClothDetails({ ...clothDetails, [e.target.name]: e.target.value });
   };
 
+  // Upload Image to Firebase Storage
+  useEffect(() => {
+    const uploadImage = () => {
+      const file_name = "cloths_" + new Date().getTime() + "_" + file.name;
+      const storageRef = ref(storage, file_name);
+      const uploadTask = uploadBytesResumable(storageRef, file);
+
+      uploadTask.on(
+        "state_changed",
+        (snapshot) => {
+          const progress =
+            (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+          setPercentage(progress);
+          console.log("Upload is " + progress + "% done");
+          switch (snapshot.state) {
+            case "paused":
+              console.log("Upload is paused");
+              break;
+            case "running":
+              console.log("Upload is running");
+              break;
+          }
+        },
+        (error) => {
+          console.error(error);
+        },
+        () => {
+          getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
+            console.log("File available at", downloadURL);
+            setClothDetails({ ...clothDetails, image: downloadURL });
+          });
+        }
+      );
+    };
+    file && uploadImage();
+  }, [file]);
+  console.log("clothDetails: ", clothDetails);
+
+  // Add Cloth to Firestore
   const handleClothSubmit = async (e) => {
     e.preventDefault();
     try {
@@ -37,6 +108,16 @@ export default function ClothMenu() {
       console.error("Error adding cloth: ", error);
     }
   };
+
+  const handleDeleteCloth = async (id) => {
+    try {
+      await deleteDoc(doc(db, "cloths", id));
+      setCloths(cloths.filter((cloth) => cloth.id !== id));
+    } catch (error) {
+      console.error("Error deleting cloth: ", error);
+    }
+  };
+
   return (
     <Card className=" w-full h-screen border-2 border-gray-800">
       <div className="bg-gray-800 p-1 rounded-t-lg">
@@ -70,9 +151,9 @@ export default function ClothMenu() {
                 <Select
                   name="clothType"
                   label="Cloth Type"
-                  // onChange={(value) =>
-                  //   setClothDetails({ ...clothDetails, clothType: value })
-                  // }
+                  onChange={(value) =>
+                    setClothDetails({ ...clothDetails, clothType: value })
+                  }
                 >
                   <Option value="shirt">Shirt</Option>
                   <Option value="pants">Pants</Option>
@@ -85,16 +166,21 @@ export default function ClothMenu() {
                   onChange={handleOnChangeSubmit}
                 />
                 <Input
-                  type="text"
+                  type="file"
                   label="Upload Image"
                   name="image"
-                  onChange={handleOnChangeSubmit}
+                  onChange={(e) => setFile(e.target.files[0])}
                 />
                 <div className="grid grid-cols-2 gap-2">
                   <Button size="sm" type="button">
                     Cancel
                   </Button>
-                  <Button size="sm" type="submit" color="red">
+                  <Button
+                    disabled={percentage !== null && percentage < 100}
+                    size="sm"
+                    type="submit"
+                    color="red"
+                  >
                     Add Cloth
                   </Button>
                 </div>
@@ -105,48 +191,42 @@ export default function ClothMenu() {
       </div>
 
       <div className="grid grid-cols-3 gap-2 p-2 ">
-        <Card className="border-2 border-gray-800 h-52">
-          <div className="flex gap-4 bg-gray-800 rounded-t-lg p-2">
-            <Avatar
-              size="lg"
-              className="border-2 border-gray-800"
-              src="https://th.bing.com/th/id/OIP.DA3RRikwpu7rpDJYkPhvuwHaGW?rs=1&pid=ImgDetMain"
-            />
+        {cloths.map((cloth, index) => (
+          <Card className="border-2 border-gray-800 h-52">
+            <div className="flex gap-4 bg-gray-800 rounded-t-lg p-2">
+              <Avatar
+                size="lg"
+                className="border-2 border-gray-800"
+                src={cloth.image}
+              />
 
-            <div>
-              <Typography className="-mb-2" color="white" variant="h4">
-                Cloth Name
-              </Typography>
-              <Typography color="white" variant="paragraph">
-                Shirt
-              </Typography>
+              <div>
+                <Typography className="-mb-2" color="white" variant="h4">
+                  {cloth.clothName}
+                </Typography>
+                <Typography color="white" variant="paragraph">
+                  {cloth.clothType}
+                </Typography>
+              </div>
             </div>
-          </div>
-          <div className="p-2">
-            <Typography>
-              Lorem, ipsum dolor sit amet consectetur adipisicing elit. Nihil
-              aut mollitia sit totam asperiores ut atque,
-            </Typography>
-          </div>
-          <div className="grid grid-cols-2 gap-2 p-2">
-            <Button size="sm" color="blue">
-              Update
-            </Button>
-            <Button size="sm" color="red">
-              Remove
-            </Button>
-          </div>
-        </Card>
-
-        <Card className="border-2 border-gray-800 h-52">hello</Card>
-
-        <Card className="border-2 border-gray-800 h-52">hello</Card>
-
-        <Card className="border-2 border-gray-800 h-52">hello</Card>
-
-        <Card className="border-2 border-gray-800 h-52">hello</Card>
-
-        <Card className="border-2 border-gray-800 h-52">hello</Card>
+            <div className="p-2">
+              <Typography>{cloth.brand}</Typography>
+            </div>
+            <div className="grid grid-cols-2 gap-2 p-2">
+              <Button variant="outlined" size="sm" color="blue">
+                Update
+              </Button>
+              <Button
+                onClick={() => handleDeleteCloth(cloth.id)}
+                variant="outlined"
+                size="sm"
+                color="red"
+              >
+                Remove
+              </Button>
+            </div>
+          </Card>
+        ))}
       </div>
     </Card>
   );
