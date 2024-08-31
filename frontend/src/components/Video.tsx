@@ -2,6 +2,7 @@ import * as React from "react";
 import {useEffect, useRef} from "react";
 import * as poseNet from "@tensorflow-models/posenet";
 import "@tensorflow/tfjs";
+import tshirt from "../images/orange.png"
 
 const PoseDetection = () => {
     const videoRef = useRef<HTMLVideoElement | null>(null);
@@ -10,7 +11,7 @@ const PoseDetection = () => {
 
     useEffect(() => {
         const tshirtImg = new Image();
-        tshirtImg.src = 'tshirt.png';
+        tshirtImg.src = tshirt;
 
         const setupCamera = async (): Promise<void> => {
             const stream = await navigator.mediaDevices.getUserMedia({video: true});
