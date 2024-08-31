@@ -3,7 +3,8 @@ import NavigationBar from "../common/NavigationBar";
 import SideBar from "../common/SideBar";
 import Home from "./Home";
 import Cloths from "./Cloths";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
 
 export default function DashBoard() {
   const [tab, setTab] = useState("home");
@@ -16,10 +17,6 @@ export default function DashBoard() {
     if (location.pathname === "/" && !tabFromURL) {
       setTab(""); //reset tab to default
     } else if (tabFromURL) {
-      setTab(tabFromURL);
-    }
-
-    if (tabFromURL) {
       setTab(tabFromURL);
     }
   }, [location.search, location.pathname]);

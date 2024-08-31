@@ -15,12 +15,10 @@ export default function SideBar() {
 
     if (tabFromUrl) {
       setTab(tabFromUrl);
+    } else if (location.pathname === "/dashboard") {
+      setTab(""); // Default tab
     }
-
-    if (location.pathname === "/dashboard" && !tabFromUrl) {
-      setTab("");
-    }
-  }, [location.search]);
+  }, [location.search, location.pathname]);
 
   return (
     <div className="bg-gray-900 w-full h-full">
@@ -34,7 +32,7 @@ export default function SideBar() {
             </ListItem>
           </Link>
           <Link to="/dashboard?tab=cloth">
-            <ListItem {...({} as any)}>
+            <ListItem {...({} as any)} selected={tab === "cloth"}>
               <Typography color="white" {...({} as any)}>
                 Cloth Menu
               </Typography>

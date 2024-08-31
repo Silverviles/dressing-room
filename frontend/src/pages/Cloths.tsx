@@ -23,11 +23,11 @@ export default function Cloths() {
 
   return (
     <Card className="border-2 border-gray-800 rounded-t-lg" {...({} as any)}>
-      <div className="bg-gray-800 rounded-t-sm">
+      <div className="bg-gray-800 rounded-t-sm p-1">
         <Typography
           color="white"
           variant="h4"
-          className="text-center"
+          className="text-center uppercase"
           {...({} as any)}
         >
           Cloth Section
@@ -50,15 +50,14 @@ export default function Cloths() {
                   <Card className="border-2 border-gray-800" {...({} as any)}>
                     <div className="bg-gray-800 rounded-t-lg p-1">
                       <Typography
-                        className="text-center"
-                        variant="h5"
+                        className="text-center uppercase"
                         color="white"
                         {...({} as any)}
                       >
                         Add Cloth
                       </Typography>
                     </div>
-                    <div className="grid grid-rows-4 gap-2 p-2">
+                    <div className="grid grid-rows-4 gap-3 p-2">
                       <Input label="Cloth Name" {...({} as any)} />
                       <Select label="Cloth Type" {...({} as any)}>
                         <Option>Shirt</Option>
@@ -66,7 +65,12 @@ export default function Cloths() {
                         <Option>Shoes</Option>
                         <Option>Flock</Option>
                       </Select>
-                      <Input label="Brand" {...({} as any)} />
+                      <Input label="Brand" {...({} as any)} />{" "}
+                      <Input
+                        type="file"
+                        label="Upload Image"
+                        {...({} as any)}
+                      />
                       <div className="grid grid-cols-2 gap-2">
                         <Button {...({} as any)}>Cancel</Button>
                         <Button color="red" {...({} as any)}>
@@ -79,15 +83,14 @@ export default function Cloths() {
                   <Card className="border-2 border-gray-800" {...({} as any)}>
                     <div className="bg-gray-800 rounded-t-lg p-1">
                       <Typography
-                        className="text-center"
-                        variant="h5"
+                        className="text-center uppercase"
                         color="white"
                         {...({} as any)}
                       >
                         Update Cloth
                       </Typography>
                     </div>
-                    <div className="grid grid-rows-4 gap-2 p-2">
+                    <div className="grid grid-rows-4 gap-3 p-2">
                       <Select label="Select Cloth" {...({} as any)}>
                         <Option>Shirt</Option>
                         <Option>Pants</Option>
@@ -96,6 +99,11 @@ export default function Cloths() {
                       </Select>
                       <Input label="New Cloth Name" {...({} as any)} />
                       <Input label="New Brand" {...({} as any)} />
+                      <Input
+                        type="file"
+                        label="Upload Image"
+                        {...({} as any)}
+                      />
                       <div className="grid grid-cols-2 gap-2">
                         <Button {...({} as any)}>Cancel</Button>
                         <Button color="red" {...({} as any)}>
@@ -112,8 +120,7 @@ export default function Cloths() {
         <Card className="border-2 border-gray-800" {...({} as any)}>
           <div className="bg-gray-800 rounded-t-lg p-1">
             <Typography
-              className="text-center"
-              variant="h5"
+              className="text-center uppercase"
               color="white"
               {...({} as any)}
             >
