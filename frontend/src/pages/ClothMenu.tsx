@@ -190,43 +190,81 @@ export default function ClothMenu() {
         </Popover>
       </div>
 
-      <div className="grid grid-cols-3 gap-2 p-2 ">
-        {cloths.map((cloth, index) => (
-          <Card className="border-2 border-gray-800 h-52">
-            <div className="flex gap-4 bg-gray-800 rounded-t-lg p-2">
-              <Avatar
-                size="lg"
-                className="border-2 border-gray-800"
-                src={cloth.image}
-              />
-
-              <div>
-                <Typography className="-mb-2" color="white" variant="h4">
-                  {cloth.clothName}
-                </Typography>
-                <Typography color="white" variant="paragraph">
-                  {cloth.clothType}
-                </Typography>
-              </div>
-            </div>
-            <div className="p-2">
-              <Typography>{cloth.brand}</Typography>
-            </div>
-            <div className="grid grid-cols-2 gap-2 p-2">
-              <Button variant="outlined" size="sm" color="blue">
-                Update
-              </Button>
-              <Button
-                onClick={() => handleDeleteCloth(cloth.id)}
-                variant="outlined"
-                size="sm"
-                color="red"
-              >
-                Remove
-              </Button>
-            </div>
-          </Card>
-        ))}
+      <div className="w-full p-2">
+        <table className="w-full border-2 border-gray-800">
+          <thead>
+            <tr className="bg-gray-800 text-white">
+              <th className="p-2"></th>
+              <th className="p-2">Cloth Name</th>
+              <th className="p-2">Cloth Type</th>
+              <th className="p-2">Brand</th>
+              <th className="p-2">Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            {cloths.map((cloth, index) => (
+              <tr key={index}>
+                <td className="p-2">
+                  <Avatar
+                    size="sm"
+                    className="border-2 border-gray-800"
+                    src={cloth.image}
+                  />
+                </td>
+                <td className="p-2">{cloth.clothName}</td>
+                <td className="p-2">{cloth.clothType}</td>
+                <td className="p-2">{cloth.brand}</td>
+                <td className="p-2 grid grid-cols-3 gap-2">
+                  <Button variant="outlined" size="sm" color="blue">
+                    Update
+                  </Button>
+                  <Button
+                    onClick={() => handleDeleteCloth(cloth.id)}
+                    variant="outlined"
+                    size="sm"
+                    color="red"
+                  >
+                    Remove
+                  </Button>
+                  <Popover
+                    placement="bottom-start"
+                    animate={{
+                      mount: { scale: 1, y: 0 },
+                      unmount: { scale: 0, y: 25 },
+                    }}
+                  >
+                    <PopoverHandler>
+                      <Button variant="outlined" size="sm" color="green">
+                        View
+                      </Button>
+                    </PopoverHandler>
+                    <PopoverContent>
+                      <Card className="border-2 border-gray-800 ">
+                        <div className="flex gap-4 bg-gray-800 rounded-t-lg p-2">
+                          <div className="">
+                            <Typography
+                              className="-mb-2 "
+                              color="white"
+                              variant="h4"
+                            >
+                              {cloth.clothName}
+                            </Typography>
+                            <Typography color="white" variant="paragraph">
+                              {cloth.clothType}
+                            </Typography>
+                          </div>
+                        </div>
+                        <div className="p-2">
+                          <img src={cloth.image} alt="cloth" className="h-52" />
+                        </div>
+                      </Card>
+                    </PopoverContent>
+                  </Popover>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
       </div>
     </Card>
   );
