@@ -19,14 +19,23 @@ import {
   deleteDoc,
   doc,
   getDocs,
+  updateDoc,
 } from "firebase/firestore";
 import { useEffect, useState } from "react";
 import { db, storage } from "../utils/firebase";
 import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
+import { AlertComponent } from "../common/AlertComponent";
 
 export default function ClothMenu() {
+  const [isAlertOpen, setIsAlertOpen] = useState(false);
+
   const [file, setFile] = useState("");
   const [cloths, setCloths] = useState([]);
+  const [alertDetails, setAlertDetails] = useState({
+    alert_topic: "",
+    alert_message: "",
+    is_success: false,
+  });
   const [percentage, setPercentage] = useState(null);
   const [clothDetails, setClothDetails] = useState({
     clothName: "",
@@ -35,25 +44,36 @@ export default function ClothMenu() {
     image: "",
   });
 
+  useEffect(() => {
+    if (isAlertOpen) {
+      const timer = setTimeout(() => {
+        setIsAlertOpen(false);
+        setAlertDetails({
+          alert_topic: "",
+          alert_message: "",
+          is_success: false,
+        }); //resetting alert details
+      }, 2000);
+      return () => clearTimeout(timer); // close alert after 2sec
+    }
+  }, [isAlertOpen]);
+
+  const fetchCloths = async () => {
+    const cloth_list = [];
+    try {
+      const querySnapshot = await getDocs(collection(db, "cloths"));
+      querySnapshot.forEach((doc) => {
+        cloth_list.push({ id: doc.id, ...doc.data() });
+      });
+      setCloths(cloth_list);
+    } catch (error) {
+      console.error("Error fetching cloths: ", error);
+    }
+  };
   // Fetch Cloths from Firestore
   useEffect(() => {
-    const fetchCloths = async () => {
-      const cloth_list = [];
-      try {
-        const querySnapshot = await getDocs(collection(db, "cloths"));
-        querySnapshot.forEach((doc) => {
-          cloth_list.push({ id: doc.id, ...doc.data() });
-        });
-        setCloths(cloth_list);
-      } catch (error) {
-        console.error("Error fetching cloths: ", error);
-      }
-    };
-
     fetchCloths();
   }, []);
-
-  console.log("cloths: ", cloths);
 
   // Handle OnChange Input
   const handleOnChangeSubmit = (e) => {
@@ -96,30 +116,83 @@ export default function ClothMenu() {
     };
     file && uploadImage();
   }, [file]);
-  console.log("clothDetails: ", clothDetails);
 
   // Add Cloth to Firestore
   const handleClothSubmit = async (e) => {
     e.preventDefault();
     try {
       await addDoc(collection(db, "cloths"), clothDetails);
-      console.log("Cloth added successfully!");
+
+      setAlertDetails({
+        alert_topic: "Clothes",
+        is_success: true,
+        alert_message: "Cloth added successfully!",
+      });
+      setIsAlertOpen(true);
+      fetchCloths();
     } catch (error) {
-      console.error("Error adding cloth: ", error);
+      setAlertDetails({
+        alert_topic: "Clothes",
+        is_success: false,
+        alert_message: "Error adding a new cloth. Retry.",
+      });
+      setIsAlertOpen(true);
     }
   };
 
+  //removing a dress
   const handleDeleteCloth = async (id) => {
     try {
       await deleteDoc(doc(db, "cloths", id));
       setCloths(cloths.filter((cloth) => cloth.id !== id));
+      setAlertDetails({
+        alert_topic: "Clothes",
+        is_success: true,
+        alert_message: "Cloth removed successfully!",
+      });
+      setIsAlertOpen(true);
     } catch (error) {
-      console.error("Error deleting cloth: ", error);
+      setAlertDetails({
+        alert_topic: "Clothes",
+        is_success: false,
+        alert_message: "Error while removing cloth!",
+      });
+      setIsAlertOpen(true);
+    }
+  };
+
+  // Update Cloth in Firestore
+  const handleUpdateCloth = async (id, updatedDetails) => {
+    try {
+      const clothRef = doc(db, "cloths", id);
+      await updateDoc(clothRef, updatedDetails);
+
+      setAlertDetails({
+        alert_topic: "Clothes",
+        is_success: true,
+        alert_message: "Cloth updated successfully!",
+      });
+      setIsAlertOpen(true);
+      fetchCloths(); // Refresh the list to reflect updates
+    } catch (error) {
+      console.log(error);
+      setAlertDetails({
+        alert_topic: "Clothes",
+        is_success: false,
+        alert_message: "Error updating cloth. Retry.",
+      });
+      setIsAlertOpen(true);
     }
   };
 
   return (
     <Card className=" w-full h-screen border-2 border-gray-800">
+      <AlertComponent
+        isOpen={isAlertOpen}
+        topic={alertDetails.alert_topic || "Clothes"}
+        is_success={alertDetails.is_success || false}
+        alert_message={alertDetails.alert_message || ""}
+      />
       <div className="bg-gray-800 p-1 rounded-t-lg">
         <Typography color="white" className="text-center uppercase">
           Cloth Section
@@ -171,6 +244,14 @@ export default function ClothMenu() {
                   name="image"
                   onChange={(e) => setFile(e.target.files[0])}
                 />
+                {percentage !== undefined && percentage !== null && (
+                  <span className="text-center text-green-500">
+                    {percentage < 100
+                      ? `Uploading file ${percentage}% completed...`
+                      : "Upload finished!"}
+                  </span>
+                )}
+
                 <div className="grid grid-cols-2 gap-2">
                   <Button size="sm" type="button">
                     Cancel
@@ -193,12 +274,12 @@ export default function ClothMenu() {
       <div className="w-full p-2">
         <table className="w-full border-2 border-gray-800">
           <thead>
-            <tr className="bg-gray-800 text-white">
+            <tr className="bg-gray-800 text-white ">
               <th className="p-2"></th>
-              <th className="p-2">Cloth Name</th>
-              <th className="p-2">Cloth Type</th>
-              <th className="p-2">Brand</th>
-              <th className="p-2">Action</th>
+              <th className="p-2 text-start">Cloth Name</th>
+              <th className="p-2 text-start">Cloth Type</th>
+              <th className="p-2 text-start">Brand</th>
+              <th className="p-2 ">Actions</th>
             </tr>
           </thead>
           <tbody>
@@ -215,17 +296,108 @@ export default function ClothMenu() {
                 <td className="p-2">{cloth.clothType}</td>
                 <td className="p-2">{cloth.brand}</td>
                 <td className="p-2 grid grid-cols-3 gap-2">
-                  <Button variant="outlined" size="sm" color="blue">
-                    Update
-                  </Button>
-                  <Button
-                    onClick={() => handleDeleteCloth(cloth.id)}
-                    variant="outlined"
-                    size="sm"
-                    color="red"
+                  <Popover
+                    placement="bottom-start"
+                    animate={{
+                      mount: { scale: 1, y: 0 },
+                      unmount: { scale: 0, y: 25 },
+                    }}
                   >
-                    Remove
-                  </Button>
+                    <PopoverHandler>
+                      <Button variant="outlined" size="sm" color="blue">
+                        Update
+                      </Button>
+                    </PopoverHandler>
+                    <PopoverContent className=" ">
+                      <Typography
+                        className="text-center"
+                        color="blue-gray"
+                        variant="h6"
+                      >
+                        Update Cloth
+                      </Typography>
+                      <form
+                        className="grid grid-rows-4 gap-3 p-2"
+                        onSubmit={(e) => {
+                          e.preventDefault();
+                          handleUpdateCloth(cloth.id, clothDetails);
+                        }}
+                      >
+                        <Input
+                          label="Cloth Name"
+                          name="clothName"
+                          defaultValue={cloth.clothName}
+                          onChange={(e) =>
+                            setClothDetails({
+                              ...clothDetails,
+                              clothName: e.target.value,
+                            })
+                          }
+                        />
+                        <Select
+                          name="clothType"
+                          label="Cloth Type"
+                          defaultValue={cloth.clothType}
+                          onChange={(value) =>
+                            setClothDetails({
+                              ...clothDetails,
+                              clothType: value,
+                            })
+                          }
+                        >
+                          <Option value="shirt">Shirt</Option>
+                          <Option value="pants">Pants</Option>
+                          <Option value="shoes">Shoes</Option>
+                          <Option value="flock">Flock</Option>
+                        </Select>
+                        <Input
+                          label="Brand"
+                          defaultValue={cloth.brand}
+                          name="brand"
+                          onChange={(e) =>
+                            setClothDetails({
+                              ...clothDetails,
+                              brand: e.target.value,
+                            })
+                          }
+                        />
+
+                        <Button size="sm" type="submit" color="blue">
+                          Update Cloth
+                        </Button>
+                      </form>
+                    </PopoverContent>
+                  </Popover>
+
+                  <Popover
+                    placement="bottom-start"
+                    animate={{
+                      mount: { scale: 1, y: 0 },
+                      unmount: { scale: 0, y: 25 },
+                    }}
+                  >
+                    <PopoverHandler>
+                      <Button variant="outlined" size="sm" color="red">
+                        Remove
+                      </Button>
+                    </PopoverHandler>
+                    <PopoverContent className="border-2 border-gray-900 bg-gray-800">
+                      <div className="gap-2 grid grid-rows-2 ">
+                        <Typography className="" variant="h6" color="white">
+                          Want to remove this dress?
+                        </Typography>
+                        <Button
+                          onClick={() => handleDeleteCloth(cloth.id)}
+                          variant="filled"
+                          size="sm"
+                          color="red"
+                        >
+                          Remove
+                        </Button>
+                      </div>
+                    </PopoverContent>
+                  </Popover>
+
                   <Popover
                     placement="bottom-start"
                     animate={{
