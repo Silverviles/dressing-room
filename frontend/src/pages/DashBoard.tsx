@@ -2,8 +2,8 @@ import { useEffect, useState } from "react";
 import NavigationBar from "../common/NavigationBar";
 import SideBar from "../common/SideBar";
 import Home from "./Home";
-import { useLocation, useNavigate } from "react-router-dom";
-import { useDispatch } from "react-redux";
+import { useLocation } from "react-router-dom";
+
 import ClothMenu from "./ClothMenu";
 
 export default function DashBoard() {
