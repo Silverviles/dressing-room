@@ -1,8 +1,9 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 
 import Header from "./common/Header";
-import DashBoard from "./pages/DashBoard";
 import Home from "./pages/Home";
+import PrivateRoute from "./common/PrivateRoute";
+import DashBoard from "./pages/DashBoard.tsx";
 
 export default function App() {
   return (
@@ -10,6 +11,11 @@ export default function App() {
       <Header />
       <Routes>
         <Route path="/" element={<Home />} />
+        <Route element={<PrivateRoute/>}>
+            {/*Add private Routes here*/}
+            <Route path="/my-clothes" element={<DashBoard/>} />
+            <Route path="/dashboard" element={<DashBoard/>} />
+        </Route>
       </Routes>
     </BrowserRouter>
   );

@@ -1,4 +1,6 @@
 // @ts-nocheck
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+
 const someVariable: string = 42; // No type checking in this file
 
 import {
@@ -22,9 +24,11 @@ import {
   updateDoc,
 } from "firebase/firestore";
 import { useEffect, useState } from "react";
-import { db, storage } from "../utils/firebase";
+import { db, storage } from "../../utils/firebase";
 import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
-import { AlertComponent } from "../common/AlertComponent";
+import { AlertComponent } from "../../common/AlertComponent.tsx";
+import {faPlus} from "@fortawesome/free-solid-svg-icons";
+import { COLORS } from "../../utils/constants/colors";
 
 export default function ClothMenu() {
   const [isAlertOpen, setIsAlertOpen] = useState(false);
@@ -134,7 +138,7 @@ export default function ClothMenu() {
       setAlertDetails({
         alert_topic: "Clothes",
         is_success: false,
-        alert_message: "Error adding a new cloth. Retry.",
+        alert_message: "Error adding a new cloth. Retry.: " + error,
       });
       setIsAlertOpen(true);
     }
@@ -155,7 +159,7 @@ export default function ClothMenu() {
       setAlertDetails({
         alert_topic: "Clothes",
         is_success: false,
-        alert_message: "Error while removing cloth!",
+        alert_message: "Error while removing cloth! Error: " + error,
       });
       setIsAlertOpen(true);
     }
@@ -201,7 +205,10 @@ export default function ClothMenu() {
       <div className="mt-2 flex justify-end p-2">
         <Popover placement="bottom-start">
           <PopoverHandler>
-            <Button>Add New Cloth</Button>
+            <Button className="flex items-center gap-2" style={{backgroundColor: COLORS.ACCENT}}>
+              <FontAwesomeIcon icon={faPlus}/>
+              <Typography className="text-xs">Add New Cloth</Typography>
+            </Button>
           </PopoverHandler>
           <PopoverContent>
             <div>

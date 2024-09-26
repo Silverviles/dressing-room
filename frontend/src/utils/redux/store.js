@@ -2,20 +2,18 @@ import { combineReducers } from "redux";
 import { configureStore } from "@reduxjs/toolkit";
 import storage from "redux-persist/lib/storage";
 import { persistReducer, persistStore } from "redux-persist";
+import userReducer from "./user.slice";
 
-// An empty reducer that just returns the current state
-const emptyReducer = (state = {}) => state;
-
-// Combine reducers (you can add other reducers here later if needed)
+// Combine reducers
 const rootReducer = combineReducers({
-  empty: emptyReducer, // Replace or add actual reducers here when ready
+  user: userReducer,
 });
 
 // Persist configuration
 const persistConfig = {
   key: "root",
   storage,
-  version: 1,
+  whiteList: ["user"],
 };
 
 // Create a persisted reducer
@@ -31,3 +29,4 @@ export const store = configureStore({
 });
 
 export const persistor = persistStore(store);
+export default store;
