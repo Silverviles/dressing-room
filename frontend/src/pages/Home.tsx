@@ -18,7 +18,6 @@ import {
   Typography,
 } from "@material-tailwind/react";
 import { useState } from "react";
-import { COLORS } from "../utils/constants/colors";
 
 const data = [
   {
@@ -119,7 +118,7 @@ const SideBar = () => {
   };
 
   return (
-        <Card className="h-screen w-full max-w-[20rem] p-4 shadow-xl shadow-blue-gray-900/5" style={{backgroundColor: COLORS.ACCENT}}>
+        <Card className=" h-screen w-full max-w-[20rem] p-4 shadow-xl shadow-blue-gray-900/5">
           <div className="mb-2 p-4">
             <Typography
                 style={{fontFamily: "'Italiana', serif"}}
