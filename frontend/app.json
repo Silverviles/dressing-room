@@ -1,0 +1,12 @@
+{
+  "expo": {
+    "name": "dressing-room",
+    "slug": "dressing-room",
+    "version": "0.0.0",
+    "sdkVersion": "51.0.0",
+    "platforms": [],
+    "android": {
+      "package": "com.anonymous.dressingroom"
+    }
+  }
+}

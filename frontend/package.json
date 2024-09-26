@@ -7,16 +7,21 @@
     "dev": "vite",
     "build": "tsc -b && vite build",
     "lint": "eslint .",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "android": "expo run:android",
+    "ios": "expo run:ios"
   },
   "dependencies": {
+    "@chatscope/chat-ui-kit-react": "^2.0.3",
+    "@material-tailwind/react": "^2.1.9",
     "@react-firebase/auth": "^0.2.10",
     "@react-firebase/database": "^0.3.11",
+    "expo": "^51.0.31",
     "firebase": "^10.13.1",
-    "@material-tailwind/react": "^2.1.9",
     "react": "18.2.0",
     "react-dom": "18.2.0",
-    "react-router-dom": "^6.26.1"
+    "react-router-dom": "^6.26.1",
+    "react-native": "0.74.5"
   },
   "devDependencies": {
     "@eslint/js": "^9.9.0",

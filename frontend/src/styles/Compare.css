@@ -1,0 +1,132 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Fira Sans', sans-serif;
+}
+
+.compare{
+    min-height: 100vh;
+    max-height: 100vh;
+    /* margin-bottom: 20px; */
+    position: relative;
+    background-color: black;
+}
+
+.camera{
+    position: relative;
+}
+
+.camera.hasPhoto{
+    width: 48%;
+    margin-right: 2%;
+    display: inline-block;
+}
+
+.result{
+    position: fixed;
+    top: 0;
+    left: 100%;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+}
+
+.result.hasPhoto{
+    position: relative;
+    width: 48%;
+    display: inline-block;
+    left: 0;
+}
+
+.camVideo{
+    width: 100%;
+    max-width: 100%;
+    height: auto;
+}
+
+.comparePagebutton{
+    position: absolute;
+    bottom: 20px;
+    left: 20px;
+
+    appearance: none;
+    border: none;
+    outline: none;
+
+    padding: 8px 16px;
+    border-radius: 5px;
+    background-image: linear-gradient(to right, #844fff, #ff4f84);
+    background-position: 0%;
+    background-size: 200%;
+    color: #fff;
+    font-size: 24px;
+    font-weight: 700;
+    transition: 0.4s;
+    cursor: pointer;
+}
+
+.comparePagebutton:hover{
+    background-position: 100%;
+}
+
+.photoCanvas{
+    width: 100%;
+    height: auto;
+}
+
+
+.chatbot-section {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+}
+
+.chatbot-button {
+    padding: 8px 16px;
+    border-radius: 5px;
+    background-image: linear-gradient(to right, #844fff, #ff4f84);
+    background-position: 0%;
+    background-size: 200%;
+    color: #fff;
+    font-size: 24px;
+    font-weight: 700;
+    transition: 0.4s;
+    cursor: pointer;
+}
+
+.chatbot-button:hover {
+    background-position: 100%;
+}
+
+.chatbot-container {
+    position: fixed;
+    bottom: 20px;
+    right: -400px; /* Adjust based on the width of your chatbot */
+    width: 400px; /* Adjust based on your chatbot's width */
+    height: 500px; /* Adjust based on your chatbot's height */
+    transition: right 0.3s ease-in-out;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    background-color: #fff;
+    border-radius: 10px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+}
+
+.chatbot-container.open {
+    right: 20px;
+}
+
+.chatbot-close-button {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    background-color: #ff0000;
+    color: #fff;
+    cursor: pointer;
+    align-self: flex-end;
+    margin: 10px;
+}
+
