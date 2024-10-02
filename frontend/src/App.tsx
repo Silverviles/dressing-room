@@ -10,10 +10,10 @@ import DashBoard from "./pages/DashBoard.tsx";
 export default function App() {
   return (
     <BrowserRouter>
-      {/* <Header /> */}
+      <Header />
       <Routes>
         <Route path="/" element={<Home />} />
-        <Route path="/profile" element={<Profile />} />
+        {/* <Route path="/profile" element={<Profile />} /> */}
         <Route path="/compare" element={<Compare/>} />
         <Route path="/chatbot" element={<Chatbot/>} />
         <Route element={<PrivateRoute/>}>
