@@ -19,6 +19,9 @@ const clothingItems: ClothingItem[] = [
   { id: 7, name: 'Evening Gown', occasion: 'Formal', culture: 'Western', gender: 'Female', imageUrl: 'https://i5.walmartimages.com/asr/23becc14-ef1b-49a5-90fc-1d94a6c4e969.c9722fd5d0e971fd5d8a631330e58fae.jpeg' },
   { id: 8, name: 'Hakama', occasion: 'Formal', culture: 'Japanese', gender: 'Male', imageUrl: 'https://fuukakimono-store.com/en/html/upload/save_image/0731151859_5f23b7d3d9be2.jpg' },
   { id: 9, name: 'Casual Dress', occasion: 'Casual', culture: 'Western', gender: 'Female', imageUrl: 'https://m.media-amazon.com/images/I/61dOfc412nL.jpg' },
+  { id: 10, name: 'Sherwani', occasion: 'Formal', culture: 'Indian', gender: 'Male', imageUrl: 'https://www.mashalcouture.com/cdn/shop/files/KunalRawal0627-min_1500x_a1565d29-a2f7-4d76-baea-39c273797bd0.png?v=1697718249&width=1946' },
+  { id: 11, name: 'Jersy and Short', occasion: 'Sport', culture: 'All', gender: 'Male', imageUrl: 'https://images.outspot.be/gallery/16323/65e72383dd63a2.jpg' },
+  { id: 11, name: 'sport wear', occasion: 'Sport', culture: 'All', gender: 'Female', imageUrl: 'https://tiimg.tistatic.com/new_website1/micro_cate_images/2/b/03/201003.jpg' },
 ];
 
 const App = () => {
@@ -26,6 +29,23 @@ const App = () => {
   const [selectedOccasion, setSelectedOccasion] = useState('');
   const [selectedCulture, setSelectedCulture] = useState('');
   const [recommendedClothing, setRecommendedClothing] = useState<ClothingItem[]>([]);
+  const [loading, setLoading] = useState(false);
+
+  // Debounced filter function to improve performance
+  const filterClothing = (gender: string, occasion: string, culture: string) => {
+    setLoading(true); // Show loading spinner
+    setTimeout(() => {
+      const filteredClothing = clothingItems.filter((item) => {
+        return (
+          (gender === '' || item.gender === gender) &&
+          (occasion === '' || item.occasion === occasion) &&
+          (culture === 'All' || item.culture === culture || culture === '')
+        );
+      });
+      setRecommendedClothing(filteredClothing);
+      setLoading(false); // Hide spinner after filtering is done
+    }, 500); // Debounce with 500ms delay
+  };
 
   const handleGenderChange = (gender: string) => {
     setSelectedGender(gender);
@@ -42,21 +62,19 @@ const App = () => {
     filterClothing(selectedGender, selectedOccasion, culture);
   };
 
-  const filterClothing = (gender: string, occasion: string, culture: string) => {
-    const filteredClothing = clothingItems.filter((item) => {
-      return (
-        (gender === '' || item.gender === gender) &&
-        (occasion === '' || item.occasion === occasion) &&
-        (culture === 'All' || item.culture === culture || culture === '')
-      );
-    });
-    setRecommendedClothing(filteredClothing);
+  const resetFilters = () => {
+    setSelectedGender('');
+    setSelectedOccasion('');
+    setSelectedCulture('');
+    setRecommendedClothing([]);
   };
 
   return (
-    <div className="w-full h-screen p-6 bg-gradient-to-r from-indigo-100 via-purple-100 to-pink-100 flex flex-col justify-center">
-      <h1 className="text-5xl font-extrabold text-center text-gray-900 mb-12">Outfit Recommendation</h1>
+    <div className="w-full min-h-screen p-6 bg-gradient-to-r from-indigo-100 via-purple-100 to-pink-100 flex flex-col justify-center">
+      <h1 className="text-6xl md:text-5xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-blue-500 to-purple-600 text-center mb-8 tracking-wide shadow-md">OUTFIT RECOMMENDATION</h1>
+
       
+      {/* Filter Section */}
       <div className="flex flex-wrap -mx-2 mb-8">
         <div className="w-full md:w-1/3 px-2 mb-4">
           <label className="block uppercase tracking-wide text-gray-700 text-lg font-bold mb-2" htmlFor="gender">
@@ -86,6 +104,8 @@ const App = () => {
             <option value="">Select Occasion</option>
             <option value="Formal">Formal</option>
             <option value="Casual">Casual</option>
+            <option value="Sport">Sport</option>
+           
           </select>
         </div>
 
@@ -104,29 +124,51 @@ const App = () => {
             <option value="Japanese">Japanese</option>
             <option value="Indian">Indian</option>
             <option value="Chinese">Chinese</option>
+            <option value="All">All</option>
           </select>
         </div>
       </div>
 
-      <h2 className="text-3xl font-bold text-gray-900 mb-6">Recommended Outfits</h2>
+      {/* Reset Button */}
+      <button onClick={resetFilters} className="bg-blue-500 text-white py-2 px-4 rounded-lg mb-6">
+        Reset Filters
+      </button>
+
+      {/* Dynamic Heading */}
+   <h2 className="text-3xl md:text-4xl lg:text-3xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-600 mb-6 drop-shadow-lg text-center">
+  Recommended Outfits 
+  {selectedGender && ` for ${selectedGender}`} 
+  {selectedOccasion && ` - ${selectedOccasion} `} 
+  {selectedCulture && `(${selectedCulture} )`}
+</h2>
+
+
+      {/* Loading Spinner */}
+      {loading && <div className="text-center mb-4">Loading...</div>}
+
+      {/* Recommended Outfits */}
       <ul className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
-        {recommendedClothing.length > 0 ? (
+        {!loading && recommendedClothing.length > 0 ? (
           recommendedClothing.map((item) => (
-            <li key={item.id} className="bg-white p-6 rounded-lg shadow-lg flex flex-col items-center">
+            <li
+              key={item.id}
+              className="bg-white p-6 rounded-lg shadow-lg flex flex-col items-center transition-all transform hover:scale-105 hover:shadow-2xl"
+            >
               <img
                 src={item.imageUrl}
                 alt={item.name}
-                className="w-full h-48 object-cover mb-4 rounded-lg"
+                className="w-full h-48 object-cover mb-4 rounded-lg lazyload"
+                loading="lazy"
               />
               <span className="text-gray-700 text-center font-semibold">{item.name}</span>
             </li>
           ))
         ) : (
-          <p className="text-gray-500 col-span-full text-center">No clothing items match the selected criteria.</p>
+          !loading && <p className="text-gray-500 col-span-full text-center">No clothing items match the selected criteria.</p>
         )}
       </ul>
     </div>
   );
 };
 
-export default App;  
+export default App;
