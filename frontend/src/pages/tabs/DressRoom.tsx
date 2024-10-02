@@ -5,6 +5,7 @@ import {useEffect, useState} from "react";
 import {fetchClothes} from "../../controller/cloth.controller.ts";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faTShirt} from "@fortawesome/free-solid-svg-icons";
+import Video from "../../components/Video.tsx";
 
 export const DressRoom = () => {
 
@@ -43,11 +44,9 @@ export const DressRoom = () => {
                     ))}
 
                 </div>
-
-
             </Card>
             <Card className="w-6/12">
-                {/*video*/}d
+                {/*<Video/>*/}
             </Card>
             <Card className="w-3/12">
                 {/*screen shot*/}d
