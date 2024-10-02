@@ -6,7 +6,8 @@ import ClothMenu from "./tabs/ClothMenu.tsx";
 import {List, ListItem, ListItemPrefix, Typography} from "@material-tailwind/react";
 import {COLORS} from "../utils/constants/colors.js";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faCogs, faHome, faShirt} from "@fortawesome/free-solid-svg-icons";
+import {faCogs, faHome, faShirt, faTShirt} from "@fortawesome/free-solid-svg-icons";
+import {DressRoom} from "./tabs/DressRoom.tsx";
 
 export default function DashBoard() {
   const [tab, setTab] = useState("home");
@@ -24,15 +25,15 @@ export default function DashBoard() {
   }, [location.search, location.pathname]);
   return (
     <div className="flex h-screen w-screen">
-      <div className="w-1/6 h-full">
-        <SideBar />
+      <div className={tab != "dress" ? "w-1/6 h-full" : ""}>
+        {tab != "dress" && <SideBar />}
       </div>
-      <div className="h-full w-5/6 overflow-y-auto">
-
+      <div className={tab != "dress" ? "h-full w-5/6 overflow-y-auto" : "w-full"}>
         <div>
-          <div className="p-4 bg-[#FAF7F0]">
+          <div className="p-4 bg-gray-100">
             {tab === "" && <Home />}
             {tab === "cloth" && <ClothMenu />}
+            {tab === "dress" && <DressRoom />}
           </div>
         </div>
       </div>
@@ -86,6 +87,15 @@ const SideBar = () => {
                 </Typography>
               </ListItem>
             </Link>
+            <Link to="/dashboard?tab=dress">
+              <ListItem {...({} as any)}>
+                <ListItemPrefix> <FontAwesomeIcon color={"white"} icon={faTShirt}/></ListItemPrefix>
+                <Typography className="text-sm" color="white" {...({} as any)}>
+                  Dress Room
+                </Typography>
+              </ListItem>
+            </Link>
+
           </List>
         </div>
       </div>

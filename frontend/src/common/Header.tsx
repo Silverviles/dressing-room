@@ -70,6 +70,7 @@ function ProfileMenu() {
   const navigate = useNavigate();
   const closeMenu = () => setIsMenuOpen(false);
   const dispatch = useDispatch();
+  console.log(user);
 
   const handleLogout = async () => {
     await LogoutUser(dispatch);
@@ -83,28 +84,31 @@ function ProfileMenu() {
         {user.user ? (
             <Menu open={isMenuOpen} handler={setIsMenuOpen} placement="bottom-end">
               <MenuHandler>
-                <Button
-                    variant="text"
-                    color="blue-gray"
-                    className="flex items-center gap-1 rounded-full py-0.5 pr-2 pl-0.5 "
+                <div
                 >
-                  <Avatar
-                      variant="circular"
-                      size="sm"
-                      alt="user-image"
-                      className="border border-gray-800 p-0.5"
-                      src={user.photoURL}
-                  />
-                  <FontAwesomeIcon
-                      icon={faChevronDown}
-                      className={`h-3 w-3 text-gray-800 transition-transform ${
-                          isMenuOpen ? "rotate-180" : ""
-                      }`}
-                  />
-                </Button>
+                  <Button
+                      variant="text"
+                      color="blue-gray"
+                      className="flex items-center gap-1 rounded-full py-0.5 pr-2 pl-0.5 "
+                  >
+                    <Avatar
+                        variant="circular"
+                        size="sm"
+                        alt="user-image"
+                        className="border border-gray-800 p-0.5"
+                        src={user.user.photoURL}
+                    />
+                    <FontAwesomeIcon
+                        icon={faChevronDown}
+                        className={`h-3 w-3 text-gray-800 transition-transform ${
+                            isMenuOpen ? "rotate-180" : ""
+                        }`}
+                    />
+                  </Button>
+                </div>
               </MenuHandler>
               <MenuList className="p-1">
-                {profileMenuItems.map(({ label, icon }, key) => {
+                {profileMenuItems.map(({label, icon}, key) => {
                   const isLastItem = key === profileMenuItems.length - 1;
                   return (
                       <MenuItem
@@ -113,7 +117,7 @@ function ProfileMenu() {
                             label === "Sign Out"
                                 ? handleLogout
                                 : label === "My Profile"
-                                ? () => navigate("/profile")
+                                    ? () => navigate("/profile")
                                     : closeMenu
                           }
                           className={`flex items-center gap-2 rounded ${
@@ -126,6 +130,7 @@ function ProfileMenu() {
                             icon={icon}
                             className={`h-4 w-4 ${isLastItem ? "text-red-500" : ""}`}
                         />
+
                         <Typography
                             as="span"
                             variant="small"
@@ -133,6 +138,7 @@ function ProfileMenu() {
                             color={isLastItem ? "red" : "inherit"}
                         >
                           {label}
+
                         </Typography>
                       </MenuItem>
 
@@ -146,10 +152,11 @@ function ProfileMenu() {
                   onClick={handleGoogleLogin}
                   variant="text"
                   ripple="light"
-                    className="text-white"
-                >
-                    Login
-                </Button>
+                  className="text-white"
+              >
+                Login
+              </Button>
+
             </div>
         )}
       </div>

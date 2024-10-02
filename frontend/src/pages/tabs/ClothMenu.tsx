@@ -20,7 +20,6 @@ import {
   collection,
   deleteDoc,
   doc,
-  getDocs,
   updateDoc,
 } from "firebase/firestore";
 import { useEffect, useState } from "react";
@@ -29,6 +28,7 @@ import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
 import { AlertComponent } from "../../common/AlertComponent.tsx";
 import {faPlus} from "@fortawesome/free-solid-svg-icons";
 import { COLORS } from "../../utils/constants/colors";
+import {fetchClothes} from "../../controller/cloth.controller.ts";
 
 export default function ClothMenu() {
   const [isAlertOpen, setIsAlertOpen] = useState(false);
@@ -62,22 +62,12 @@ export default function ClothMenu() {
     }
   }, [isAlertOpen]);
 
-  const fetchCloths = async () => {
-    const cloth_list = [];
-    try {
-      const querySnapshot = await getDocs(collection(db, "cloths"));
-      querySnapshot.forEach((doc) => {
-        cloth_list.push({ id: doc.id, ...doc.data() });
-      });
-      setCloths(cloth_list);
-    } catch (error) {
-      console.error("Error fetching cloths: ", error);
-    }
-  };
-  // Fetch Cloths from Firestore
-  useEffect(() => {
-    fetchCloths();
-  }, []);
+  // Fetch Clothes from Firestore
+    useEffect(() => {
+        fetchClothes().then((cloths) => {
+            setCloths(cloths);
+        })
+    }, []);
 
   // Handle OnChange Input
   const handleOnChangeSubmit = (e) => {
@@ -118,8 +108,10 @@ export default function ClothMenu() {
         }
       );
     };
-    file && uploadImage();
-  }, [file]);
+    if(file){
+      uploadImage();
+    }
+  }, [clothDetails, file]);
 
   // Add Cloth to Firestore
   const handleClothSubmit = async (e) => {
