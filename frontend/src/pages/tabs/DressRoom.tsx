@@ -16,6 +16,12 @@ import Video from "../../components/Video.tsx";
 
 export const DressRoom = () => {
   const [clothes, setClothes] = useState([]);
+  const [selectedCloth, setSelectedCloth] = useState("");
+
+  const handleClothSelect = (clothImage) => {
+    setSelectedCloth(clothImage);
+    console.log("Selected cloth", clothImage);
+  };
 
   useEffect(() => {
     fetchClothes().then((cloths) => {
@@ -27,7 +33,6 @@ export const DressRoom = () => {
   return (
     <div className="w-full flex gap-2 ">
       <Card className="w-3/12 h-screen ">
-        {/*dress selection*/}
         <Typography className="text-center bg-gray-800 text-white rounded-t-lg p-2">
           Your Clothes
         </Typography>
@@ -44,7 +49,7 @@ export const DressRoom = () => {
                   cloth.image ? cloth.image : "https://via.placeholder.com/150"
                 }
                 alt={cloth.clothName}
-                className="  object-cover"
+                className="object-cover"
               />
               <CardBody className="p-2 pb-0">
                 <Typography className="text-center text-gray-800 text-lg font-semibold">
@@ -56,6 +61,7 @@ export const DressRoom = () => {
               </CardBody>
               <CardFooter className="p-0 pb-2">
                 <Button
+                  onClick={() => handleClothSelect(cloth.image)}
                   fullWidth
                   className="flex gap-2 items-center justify-center"
                 >
@@ -68,9 +74,11 @@ export const DressRoom = () => {
         </div>
       </Card>
       <Card className="w-6/12">
-        <Video />
+        <Video key={selectedCloth} image={selectedCloth} />
       </Card>
-      <Card className="w-3/12">{/*screen shot*/}d</Card>
+      <Card className="w-3/12">
+        {/* Screenshot functionality can go here */}
+      </Card>
     </div>
   );
 };
