@@ -62,7 +62,7 @@ export default function Compare(){
             <div className="chatbot-section">
                 <button className="chatbot-button" onClick={() => setIsChatbotOpen(true)}>Assistant</button>
                 <div className={`chatbot-container ${isChatbotOpen ? 'open' : ''}`}>
-                    <Chatbot />
+                    <Chatbot/>
                     <button className="chatbot-close-button" onClick={() => setIsChatbotOpen(false)}>Close</button>
                 </div>
             </div>
