@@ -87,7 +87,7 @@ export const DressRoom = () => {
             </Typography>)}
         <Video key={selectedCloth} image={selectedCloth} />
       </Card>
-      <Card className="w-3/12">
+      <Card className="w-3/12" id="scnShotDiv">
         {/* Screenshot functionality can go here */}
       </Card>
     </div>

@@ -2,6 +2,7 @@ import * as React from "react";
 import { useEffect, useRef } from "react";
 import * as poseNet from "@tensorflow-models/posenet";
 import "@tensorflow/tfjs";
+import { Button, CardFooter, Typography } from "@material-tailwind/react";
 // import tshirt from "../images/orange.png";
 
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
@@ -20,6 +21,7 @@ const PoseDetection = ({ image }) => {
   useEffect(() => {
     const tshirtImg = new Image();
     tshirtImg.src = image;
+    //tshirtImg.crossOrigin = "Anonymous";
 
     tshirtImg.onload = () => {
       const setupCamera = async (): Promise<void> => {
@@ -167,12 +169,70 @@ const PoseDetection = ({ image }) => {
     };
   }, [image]); // Re-run only when the image prop changes
 
+  const takePhoto = () => {
+    const video = videoRef.current;
+    const canvas = canvasRef.current;
+
+    if (!video || !canvas) return;
+
+    // Create a new canvas to merge video and existing canvas
+    const mergedCanvas = document.createElement("canvas");
+    mergedCanvas.width = canvas.width;
+    mergedCanvas.height = canvas.height;
+
+    const mergedCtx = mergedCanvas.getContext("2d");
+
+    // Draw video frame onto merged canvas
+    mergedCtx?.drawImage(video, 0, 0, mergedCanvas.width, mergedCanvas.height);
+
+    // Draw the canvas contents (T-shirt image) on top of the video frame
+    mergedCtx?.drawImage(canvas, 0, 0, mergedCanvas.width, mergedCanvas.height);
+
+
+    // //Now mergedCanvas contains both video frame and T-shirt
+    // const screenshotDataURL = mergedCanvas.toDataURL("image/png");
+    
+    // //Create an image element or append it to the desired container
+    // const img = document.createElement("img");
+    // img.src = screenshotDataURL;
+    // document.getElementById("scnShotDiv")!.appendChild(img);
+
+    document.getElementById("scnShotDiv")!.appendChild(mergedCanvas);
+  }
+
+  const clearPhotos = () => {
+    const screenshotDiv = document.getElementById("scnShotDiv");
+    if (screenshotDiv) {
+      while (screenshotDiv.firstChild) {
+        screenshotDiv.removeChild(screenshotDiv.firstChild); // Remove all children (canvas elements)
+      }
+    }
+  };
+
   return (
-    <div ref={containerRef} style={containerStyles}>
-      <video ref={videoRef} autoPlay playsInline style={videoStyles} />
-      <canvas ref={canvasRef} style={canvasStyles} />
-    </div>
-  );
+    <>
+      <div ref={containerRef} style={containerStyles}>
+        <video ref={videoRef} autoPlay playsInline style={videoStyles}/>
+        <canvas ref={canvasRef} style={canvasStyles}/>
+      </div>
+      <CardFooter className="p-0 pb-2">
+        <Button
+            onClick={() => takePhoto()}
+            fullWidth
+            className="flex gap-2 items-center justify-center"
+        >
+          <Typography className="text-xs">Take Image</Typography>
+        </Button>
+        <Button
+          onClick={clearPhotos}
+          fullWidth
+          className="flex gap-2 items-center justify-center mt-2"
+        >
+          <Typography className="text-xs">Clear Images</Typography>
+        </Button>
+      </CardFooter>
+    </>
+);
 };
 
 const containerStyles: React.CSSProperties = {
