@@ -1,6 +1,8 @@
 // @ts-nocheck
 // No type checking in this file
 
+import Logo from "../images/logo.png";
+
 import {faBell, faChevronDown, faCog, faMailBulk, faSignOut, faUser} from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -20,32 +22,38 @@ export default function Header() {
   const user = useSelector((state) => state.user);
   return (
     <div>
-      <div className="flex justify-between p-2  items-center" style={{backgroundColor: COLORS.HEADER}}>
-        <div className="flex flex-center items-center gap-2">
+      <div className="flex justify-between p-2  items-center bg-gray-900" >
+        <div className="flex flex-center items-center gap-2 ml-2">
           <Avatar
             size="sm"
-            src="https://img.freepik.com/free-vector/fashion-business-logo-template-branding-design-black-white-vector_53876-156444.jpg?w=740&t=st=1725700280~exp=1725700880~hmac=6b541126f2074eed575b8aedb10e89a8f0c89b68d22bcd0eca87f216e8fdb27d"
+            src={Logo}
           />
           <Typography
             style={{ fontFamily: "'Italiana', serif" }}
             variant="h4"
             color="white"
           >
-            StarLight
+            Dress Me
           </Typography>
         </div>
         <div>
 
           <ul className="flex flex-row gap-4 text-white font-semibold">
             <Link to={'/'}>
-              <li className="cursor-pointer text-sm">Home</li>
+              <li className="cursor-pointer text-sm" style={{
+                fontFamily: "Abril Fatface",
+              }}>Home</li>
             </Link>
             <Link to={'/about'}>
-              <li className="cursor-pointer text-sm">About Us</li>
+              <li className="cursor-pointer text-sm" style={{
+                fontFamily: "Abril Fatface",
+              }}>About Us</li>
             </Link>
             {user.user && (
                 <Link to={'/dashboard?tab=cloth'}>
-                  <li className="cursor-pointer text-sm">My Clothes</li>
+                  <li className="cursor-pointer text-sm" style={{
+                    fontFamily: "Abril Fatface",
+                  }}>My Clothes</li>
                 </Link>)
             }
           </ul>
@@ -96,7 +104,7 @@ function ProfileMenu() {
                         size="sm"
                         alt="user-image"
                         className="border border-gray-800 p-0.5"
-                        src={user.user.photoURL}
+                        src={user.user.photoURL || "https://img.freepik.com/free-vector/flat-style-woman-avatar_90220-2876.jpg?t=st=1728114640~exp=1728118240~hmac=e866d1b0643f8a97ab4de48eb75216c2071c0529724c21e5ca06dc37574f4481&w=740"}
                     />
                     <FontAwesomeIcon
                         icon={faChevronDown}

@@ -2,10 +2,14 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 
 import Header from "./common/Header";
 
-import Home from "./pages/Home";
+
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-expect-error
 import PrivateRoute from "./common/PrivateRoute";
 import DashBoard from "./pages/DashBoard.tsx";
 import DressRoom from "./pages/DressRoom.tsx";
+import Home from "./pages/Home";
+import {Footer} from "./common/Footer.tsx";
 
 export default function App() {
   return (
@@ -20,6 +24,7 @@ export default function App() {
             <Route path="/dress" element={<DressRoom/>}/>
         </Route>
       </Routes>
+        <Footer/>
     </BrowserRouter>
   );
 }

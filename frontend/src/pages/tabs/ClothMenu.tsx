@@ -1,7 +1,6 @@
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-nocheck
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-
-const someVariable: string = 42; // No type checking in this file
 
 import {
   Avatar,
@@ -29,6 +28,7 @@ import { AlertComponent } from "../../common/AlertComponent.tsx";
 import {faPlus} from "@fortawesome/free-solid-svg-icons";
 import { COLORS } from "../../utils/constants/colors";
 import {fetchClothes} from "../../controller/cloth.controller.ts";
+import ReportComponent from "../../components/ReportComponent.tsx";
 
 export default function ClothMenu() {
   const [isAlertOpen, setIsAlertOpen] = useState(false);
@@ -174,13 +174,17 @@ export default function ClothMenu() {
         alert_message: "Cloth updated successfully!",
       });
       setIsAlertOpen(true);
-      fetchCloths(); // Refresh the list to reflect updates
+      fetchClothes().then(
+        (cloths) => {
+          setCloths(cloths);
+        }
+      ); // Refresh the list to reflect updates
     } catch (error) {
       console.log(error);
       setAlertDetails({
         alert_topic: "Clothes",
         is_success: false,
-        alert_message: "Error updating cloth. Retry.",
+        alert_message: "Error updating cloth. Retry. Error: ", error,
       });
       setIsAlertOpen(true);
     }
@@ -199,10 +203,11 @@ export default function ClothMenu() {
           Cloth Section
         </Typography>
       </div>
-      <div className="mt-2 flex justify-end p-2">
+      <div className="mt-2 flex justify-between p-2">
+        <ReportComponent reportData={cloths}/>
         <Popover placement="bottom-start">
           <PopoverHandler>
-            <Button className="flex items-center gap-2" style={{backgroundColor: COLORS.ACCENT}}>
+            <Button size={"sm"} className="flex items-center gap-2" style={{backgroundColor: COLORS.ACCENT}}>
               <FontAwesomeIcon icon={faPlus}/>
               <Typography className="text-xs">Add New Cloth</Typography>
             </Button>

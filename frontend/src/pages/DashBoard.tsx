@@ -1,12 +1,15 @@
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-nocheck
+
+
 import { useEffect, useState } from "react";
 import Home from "./Home";
 import {Link, useLocation} from "react-router-dom";
 
 import ClothMenu from "./tabs/ClothMenu.tsx";
 import {List, ListItem, ListItemPrefix, Typography} from "@material-tailwind/react";
-import {COLORS} from "../utils/constants/colors.js";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faCogs, faHome, faShirt, faTShirt} from "@fortawesome/free-solid-svg-icons";
+import { faShirt, faTShirt} from "@fortawesome/free-solid-svg-icons";
 import {DressRoom} from "./tabs/DressRoom.tsx";
 
 export default function DashBoard() {
@@ -58,17 +61,9 @@ const SideBar = () => {
   }, [location.search, location.pathname]);
 
   return (
-      <div className="w-full h-full" style={{backgroundColor: COLORS.ACCENT_LIGHT}}>
-        <div>
+      <div className="w-full h-full bg-gray-800" >
+        <div className="pt-4">
           <List {...({} as any)}>
-            <Link to="/dashboard">
-              <ListItem {...({} as any)} selected={tab === ""}>
-                <ListItemPrefix> <FontAwesomeIcon color={"white"} icon={faHome}/></ListItemPrefix>
-                <Typography className="text-sm" color="white" {...({} as any)}>
-                  Home Menu
-                </Typography>
-              </ListItem>
-            </Link>
             <Link to="/dashboard?tab=cloth">
               <ListItem {...({} as any)} selected={tab === "cloth"}>
                 <ListItemPrefix> <FontAwesomeIcon color={"white"} icon={faShirt}/></ListItemPrefix>
@@ -79,14 +74,7 @@ const SideBar = () => {
             </Link>
 
             {/*Add more here*/}
-            <Link to="/dashboard?tab=settings">
-              <ListItem {...({} as any)}>
-                <ListItemPrefix> <FontAwesomeIcon color={"white"} icon={faCogs}/></ListItemPrefix>
-                <Typography className="text-sm" color="white" {...({} as any)}>
-                  Settings
-                </Typography>
-              </ListItem>
-            </Link>
+
             <Link to="/dashboard?tab=dress">
               <ListItem {...({} as any)}>
                 <ListItemPrefix> <FontAwesomeIcon color={"white"} icon={faTShirt}/></ListItemPrefix>

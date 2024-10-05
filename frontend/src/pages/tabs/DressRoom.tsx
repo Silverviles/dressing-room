@@ -33,7 +33,9 @@ export const DressRoom = () => {
   return (
     <div className="w-full flex gap-2 ">
       <Card className="w-3/12 h-screen ">
-        <Typography className="text-center bg-gray-800 text-white rounded-t-lg p-2">
+        <Typography className="text-center bg-gray-800 text-white rounded-t-lg p-2" style={{
+          fontFamily: "Abril Fatface",
+        }}>
           Your Clothes
         </Typography>
         <div className="p-2 overflow-y-auto h-full">
@@ -52,10 +54,14 @@ export const DressRoom = () => {
                 className="object-cover"
               />
               <CardBody className="p-2 pb-0">
-                <Typography className="text-center text-gray-800 text-lg font-semibold">
+                <Typography className="text-center text-gray-800 text-lg font-semibold" style={{
+                  fontFamily: "Abril Fatface",
+                }}>
                   {cloth.clothName}
                 </Typography>
-                <Typography className="text-center text-gray-800">
+                <Typography className="text-center text-gray-800" style={{
+                  fontFamily: "Abril Fatface",
+                }}>
                   {cloth.brand}
                 </Typography>
               </CardBody>
@@ -73,7 +79,12 @@ export const DressRoom = () => {
           ))}
         </div>
       </Card>
-      <Card className="w-6/12">
+      <Card className="items-center pt-4 px-4">
+        {selectedCloth == "" && (
+            <Typography className={"mb-2 text-sm text-gray-900"}
+                        style={{fontFamily: "Abril Fatface",}}>
+              Select a cloth
+            </Typography>)}
         <Video key={selectedCloth} image={selectedCloth} />
       </Card>
       <Card className="w-3/12">

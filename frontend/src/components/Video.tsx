@@ -4,6 +4,8 @@ import * as poseNet from "@tensorflow-models/posenet";
 import "@tensorflow/tfjs";
 // import tshirt from "../images/orange.png";
 
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-expect-error
 const PoseDetection = ({ image }) => {
   const videoRef = useRef<HTMLVideoElement | null>(null);
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
