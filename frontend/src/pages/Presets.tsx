@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import html2pdf from 'html2pdf.js';
 
 interface ClothingItem {
   id: number;
@@ -31,9 +32,8 @@ const App = () => {
   const [recommendedClothing, setRecommendedClothing] = useState<ClothingItem[]>([]);
   const [loading, setLoading] = useState(false);
 
-  // Debounced filter function to improve performance
   const filterClothing = (gender: string, occasion: string, culture: string) => {
-    setLoading(true); // Show loading spinner
+    setLoading(true);
     setTimeout(() => {
       const filteredClothing = clothingItems.filter((item) => {
         return (
@@ -43,8 +43,8 @@ const App = () => {
         );
       });
       setRecommendedClothing(filteredClothing);
-      setLoading(false); // Hide spinner after filtering is done
-    }, 500); // Debounce with 500ms delay
+      setLoading(false);
+    }, 500);
   };
 
   const handleGenderChange = (gender: string) => {
@@ -69,70 +69,81 @@ const App = () => {
     setRecommendedClothing([]);
   };
 
+  const downloadPDF = () => {
+    const element = document.getElementById('pdf-content');
+    if (element) {
+      const options = {
+        margin: [0.5, 0.5, 0.5, 0.5], // adjust margins as needed
+        filename: 'outfit_recommendation.pdf',
+        image: { type: 'jpeg', quality: 0.98 },
+        html2canvas: { scale: 2, useCORS: true }, // ensure higher quality images
+        jsPDF: { unit: 'in', format: 'letter', orientation: 'portrait' },
+        pagebreak: { mode: ['avoid-all', 'css', 'legacy'] },
+      };
+      html2pdf().set(options).from(element).save();
+    }
+  };
+
   return (
     <div className="w-full min-h-screen p-6 bg-gradient-to-r from-indigo-100 via-purple-100 to-pink-100 flex flex-col justify-center">
       <h1 className="text-6xl md:text-5xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-blue-500 to-purple-600 text-center mb-8 tracking-wide shadow-md">OUTFIT RECOMMENDATION</h1>
-
       
-      {/* Filter Section */}
-      <div className="flex flex-wrap -mx-2 mb-8">
-        <div className="w-full md:w-1/3 px-2 mb-4">
-          <label className="block uppercase tracking-wide text-gray-700 text-lg font-bold mb-2" htmlFor="gender">
-            Gender
-          </label>
-          <select
-            className="block appearance-none w-full bg-white border border-gray-300 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
-            id="gender"
-            value={selectedGender}
-            onChange={(e) => handleGenderChange(e.target.value)}
-          >
-            <option value="">Select Gender</option>
-            <option value="Male">Male</option>
-            <option value="Female">Female</option>
-          </select>
+      <div id="pdf-content">
+        {/* Filter Section */}
+        <div className="flex flex-wrap -mx-2 mb-8">
+          <div className="w-full md:w-1/3 px-2 mb-4">
+            <label className="block uppercase tracking-wide text-gray-700 text-lg font-bold mb-2" htmlFor="gender">
+              Gender
+            </label>
+            <select
+              className="block appearance-none w-full bg-white border border-gray-300 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
+              id="gender"
+              value={selectedGender}
+              onChange={(e) => handleGenderChange(e.target.value)}
+            >
+              <option value="">Select Gender</option>
+              <option value="Male">Male</option>
+              <option value="Female">Female</option>
+            </select>
+          </div>
+          <div className="w-full md:w-1/3 px-2 mb-4">
+            <label className="block uppercase tracking-wide text-gray-700 text-lg font-bold mb-2" htmlFor="occasion">
+              Occasion
+            </label>
+            <select
+              className="block appearance-none w-full bg-white border border-gray-300 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
+              id="occasion"
+              value={selectedOccasion}
+              onChange={(e) => handleOccasionChange(e.target.value)}
+            >
+              <option value="">Select Occasion</option>
+              <option value="Formal">Formal</option>
+              <option value="Casual">Casual</option>
+              <option value="Sport">Sport</option>
+            </select>
+          </div>
+          <div className="w-full md:w-1/3 px-2 mb-4">
+            <label className="block uppercase tracking-wide text-gray-700 text-lg font-bold mb-2" htmlFor="culture">
+              Culture
+            </label>
+            <select
+              className="block appearance-none w-full bg-white border border-gray-300 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
+              id="culture"
+              value={selectedCulture}
+              onChange={(e) => handleCultureChange(e.target.value)}
+            >
+              <option value="">Select Culture</option>
+              <option value="Western">Western</option>
+              <option value="Japanese">Japanese</option>
+              <option value="Indian">Indian</option>
+              <option value="Chinese">Chinese</option>
+              <option value="All">All</option>
+            </select>
+          </div>
         </div>
-        <div className="w-full md:w-1/3 px-2 mb-4">
-          <label className="block uppercase tracking-wide text-gray-700 text-lg font-bold mb-2" htmlFor="occasion">
-            Occasion
-          </label>
-          <select
-            className="block appearance-none w-full bg-white border border-gray-300 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
-            id="occasion"
-            value={selectedOccasion}
-            onChange={(e) => handleOccasionChange(e.target.value)}
-          >
-            <option value="">Select Occasion</option>
-            <option value="Formal">Formal</option>
-            <option value="Casual">Casual</option>
-            <option value="Sport">Sport</option>
-           
-          </select>
-        </div>
-
-        <div className="w-full md:w-1/3 px-2 mb-4">
-          <label className="block uppercase tracking-wide text-gray-700 text-lg font-bold mb-2" htmlFor="culture">
-            Culture
-          </label>
-          <select
-            className="block appearance-none w-full bg-white border border-gray-300 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
-            id="culture"
-            value={selectedCulture}
-            onChange={(e) => handleCultureChange(e.target.value)}
-          >
-            <option value="">Select Culture</option>
-            <option value="Western">Western</option>
-            <option value="Japanese">Japanese</option>
-            <option value="Indian">Indian</option>
-            <option value="Chinese">Chinese</option>
-            <option value="All">All</option>
-          </select>
-        </div>
-      </div>
-
-      {/* Reset Button */}
-      <button onClick={resetFilters} className="bg-blue-500 text-white py-2 px-4 rounded-lg mb-6">
-        Reset Filters
-      </button>
+        
+       {/* Reset Button */}
+    
 
       {/* Dynamic Heading */}
    <h2 className="text-3xl md:text-4xl lg:text-3xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-600 mb-6 drop-shadow-lg text-center">
@@ -167,6 +178,23 @@ const App = () => {
           !loading && <p className="text-gray-500 col-span-full text-center">No clothing items match the selected criteria.</p>
         )}
       </ul>
+     
+      </div>
+
+      <div className="flex justify-center mt-6">
+        <button
+          onClick={resetFilters}
+          className="px-6 py-3 bg-green-400 hover:bg-green-800 text-white rounded-lg mx-2"
+        >
+          Reset Filters
+        </button>
+        <button
+          onClick={downloadPDF}
+          className="px-6 py-3 bg-blue-500 hover:bg-blue-600 text-white rounded-lg mx-2"
+        >
+          Download PDF
+        </button>
+      </div>
     </div>
   );
 };
