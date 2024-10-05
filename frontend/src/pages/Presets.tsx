@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import html2pdf from 'html2pdf.js';
+import {Button, Typography} from "@material-tailwind/react";
+import {fontFamily} from "html2canvas/dist/types/css/property-descriptors/font-family";
 
 interface ClothingItem {
   id: number;
@@ -85,117 +87,145 @@ const App = () => {
   };
 
   return (
-    <div className="w-full min-h-screen p-6 bg-gradient-to-r from-indigo-100 via-purple-100 to-pink-100 flex flex-col justify-center">
-      <h1 className="text-6xl md:text-5xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-blue-500 to-purple-600 text-center mb-8 tracking-wide shadow-md">OUTFIT RECOMMENDATION</h1>
-      
-      <div id="pdf-content">
-        {/* Filter Section */}
-        <div className="flex flex-wrap -mx-2 mb-8">
-          <div className="w-full md:w-1/3 px-2 mb-4">
-            <label className="block uppercase tracking-wide text-gray-700 text-lg font-bold mb-2" htmlFor="gender">
-              Gender
-            </label>
-            <select
-              className="block appearance-none w-full bg-white border border-gray-300 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
-              id="gender"
-              value={selectedGender}
-              onChange={(e) => handleGenderChange(e.target.value)}
-            >
-              <option value="">Select Gender</option>
-              <option value="Male">Male</option>
-              <option value="Female">Female</option>
-            </select>
-          </div>
-          <div className="w-full md:w-1/3 px-2 mb-4">
-            <label className="block uppercase tracking-wide text-gray-700 text-lg font-bold mb-2" htmlFor="occasion">
-              Occasion
-            </label>
-            <select
-              className="block appearance-none w-full bg-white border border-gray-300 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
-              id="occasion"
-              value={selectedOccasion}
-              onChange={(e) => handleOccasionChange(e.target.value)}
-            >
-              <option value="">Select Occasion</option>
-              <option value="Formal">Formal</option>
-              <option value="Casual">Casual</option>
-              <option value="Sport">Sport</option>
-            </select>
-          </div>
-          <div className="w-full md:w-1/3 px-2 mb-4">
-            <label className="block uppercase tracking-wide text-gray-700 text-lg font-bold mb-2" htmlFor="culture">
-              Culture
-            </label>
-            <select
-              className="block appearance-none w-full bg-white border border-gray-300 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
-              id="culture"
-              value={selectedCulture}
-              onChange={(e) => handleCultureChange(e.target.value)}
-            >
-              <option value="">Select Culture</option>
-              <option value="Western">Western</option>
-              <option value="Japanese">Japanese</option>
-              <option value="Indian">Indian</option>
-              <option value="Chinese">Chinese</option>
-              <option value="All">All</option>
-            </select>
-          </div>
+      <div className="w-full min-h-screen p-6  flex flex-col ">
+        <Typography className={'text-center text-gray-900'} style={{
+          fontFamily: "Abril Fatface",
+          fontWeight: "bold",
+        }} variant={"h2"}>Outfit Recommendation</Typography>
+        <div className={"-mt-2 mb-10 text-gray-800"}>
+          <Typography className={'text-center'} style={{
+            fontFamily: "Abril Fatface",
+            fontWeight: "bold",
+          }}>
+            Discover personalized outfit recommendations tailored to your style preferences, occasion, and season.
+            Browse through curated collections and get inspired with the perfect look, all at your fingertips.
+          </Typography>
         </div>
-        
-       {/* Reset Button */}
-    
 
-      {/* Dynamic Heading */}
-   <h2 className="text-3xl md:text-4xl lg:text-3xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-600 mb-6 drop-shadow-lg text-center">
-  Recommended Outfits 
-  {selectedGender && ` for ${selectedGender}`} 
-  {selectedOccasion && ` - ${selectedOccasion} `} 
-  {selectedCulture && `(${selectedCulture} )`}
-</h2>
+        <div className="flex justify-center -mt-5 mb-4">
+          <Button
+              onClick={resetFilters}
+              className="px-6 py-3 bg-green-400 hover:bg-green-800 text-white rounded-lg mx-2"
+          >
+            Reset Filters
+          </Button>
+          <Button
+              onClick={downloadPDF}
+              className="px-6 py-3 bg-blue-500 hover:bg-blue-600 text-white rounded-lg mx-2"
+          >
+            Download PDF
+          </Button>
+        </div>
+
+        <div id="pdf-content">
+          {/* Filter Section */}
+          <div className="flex flex-wrap -mx-2 mb-8">
+            <div className="w-full md:w-1/3 px-2 mb-4">
+              <label style={{
+                fontFamily: "Abril Fatface",
+                fontWeight: "bold",
+              }} className="block uppercase tracking-wide text-gray-700 text-lg font-bold mb-2" htmlFor="gender">
+                Gender
+              </label>
+              <select
+                  className="block appearance-none w-full bg-white border border-gray-300 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
+                  id="gender"
+                  value={selectedGender}
+                  onChange={(e) => handleGenderChange(e.target.value)}
+              >
+                <option value="">Select Gender</option>
+                <option value="Male">Male</option>
+                <option value="Female">Female</option>
+              </select>
+            </div>
+            <div className="w-full md:w-1/3 px-2 mb-4">
+              <label style={{
+                fontFamily: "Abril Fatface",
+                fontWeight: "bold",
+              }} className="block uppercase tracking-wide text-gray-700 text-lg font-bold mb-2" htmlFor="occasion">
+                Occasion
+              </label>
+              <select
+                  className="block appearance-none w-full bg-white border border-gray-300 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
+                  id="occasion"
+                  value={selectedOccasion}
+                  onChange={(e) => handleOccasionChange(e.target.value)}
+              >
+                <option value="">Select Occasion</option>
+                <option value="Formal">Formal</option>
+                <option value="Casual">Casual</option>
+                <option value="Sport">Sport</option>
+              </select>
+            </div>
+            <div className="w-full md:w-1/3 px-2 mb-4">
+              <label style={{
+                fontFamily: "Abril Fatface",
+                fontWeight: "bold",
+              }} className="block uppercase tracking-wide text-gray-700 text-lg font-bold mb-2" htmlFor="culture">
+                Culture
+              </label>
+              <select
+                  className="block appearance-none w-full bg-white border border-gray-300 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
+                  id="culture"
+                  value={selectedCulture}
+                  onChange={(e) => handleCultureChange(e.target.value)}
+              >
+                <option value="">Select Culture</option>
+                <option value="Western">Western</option>
+                <option value="Japanese">Japanese</option>
+                <option value="Indian">Indian</option>
+                <option value="Chinese">Chinese</option>
+                <option value="All">All</option>
+              </select>
+            </div>
+          </div>
+
+          {/* Reset Button */}
 
 
-      {/* Loading Spinner */}
-      {loading && <div className="text-center mb-4">Loading...</div>}
+          {/* Dynamic Heading */}
+          <Typography style={{
+            fontFamily: "Abril Fatface",
+            fontWeight: "bold",
+          }}
+                      className="text-3xl md:text-4xl lg:text-3xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-600 mb-6 drop-shadow-lg text-center">
+            Recommended Outfits
+            {selectedGender && ` for ${selectedGender}`}
+            {selectedOccasion && ` - ${selectedOccasion} `}
+            {selectedCulture && `(${selectedCulture} )`}
+          </Typography>
 
-      {/* Recommended Outfits */}
-      <ul className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
-        {!loading && recommendedClothing.length > 0 ? (
-          recommendedClothing.map((item) => (
-            <li
-              key={item.id}
-              className="bg-white p-6 rounded-lg shadow-lg flex flex-col items-center transition-all transform hover:scale-105 hover:shadow-2xl"
-            >
-              <img
-                src={item.imageUrl}
-                alt={item.name}
-                className="w-full h-48 object-cover mb-4 rounded-lg lazyload"
-                loading="lazy"
-              />
-              <span className="text-gray-700 text-center font-semibold">{item.name}</span>
-            </li>
-          ))
-        ) : (
-          !loading && <p className="text-gray-500 col-span-full text-center">No clothing items match the selected criteria.</p>
-        )}
-      </ul>
-     
+
+          {/* Loading Spinner */}
+          {loading && <div className="text-center mb-4">Loading...</div>}
+
+          {/* Recommended Outfits */}
+          <ul className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
+            {!loading && recommendedClothing.length > 0 ? (
+                recommendedClothing.map((item) => (
+                    <li
+                        key={item.id}
+                        className="bg-white p-6 rounded-lg shadow-lg flex flex-col items-center transition-all transform hover:scale-105 hover:shadow-2xl"
+                    >
+                      <img
+                          src={item.imageUrl}
+                          alt={item.name}
+                          className="w-full h-48 object-cover mb-4 rounded-lg lazyload"
+                          loading="lazy"
+                      />
+                      <span className="text-gray-700 text-center font-semibold">{item.name}</span>
+                    </li>
+                ))
+            ) : (
+                !loading && <p className="text-gray-500 col-span-full text-center">No clothing items match the selected
+                  criteria.</p>
+            )}
+          </ul>
+
+        </div>
+
+
       </div>
-
-      <div className="flex justify-center mt-6">
-        <button
-          onClick={resetFilters}
-          className="px-6 py-3 bg-green-400 hover:bg-green-800 text-white rounded-lg mx-2"
-        >
-          Reset Filters
-        </button>
-        <button
-          onClick={downloadPDF}
-          className="px-6 py-3 bg-blue-500 hover:bg-blue-600 text-white rounded-lg mx-2"
-        >
-          Download PDF
-        </button>
-      </div>
-    </div>
   );
 };
 

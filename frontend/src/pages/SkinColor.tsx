@@ -1,4 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
+import {backgroundImage} from "html2canvas/dist/types/css/property-descriptors/background-image";
+import * as url from "node:url";
 
 // Helper function to determine if the pixel is likely to be a skin tone based on RGB values
 const isSkinPixel = (r: number, g: number, b: number) => {
@@ -126,50 +128,53 @@ const SkinColorDetectionApp: React.FC = () => {
   };
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 p-6">
-      <div className="bg-white shadow-2xl rounded-lg overflow-hidden p-6 w-full" style={{ maxWidth: '800px' }}> {/* Full width container */}
-        {isCameraActive && stream ? (
-          <div className="relative w-full lg:w-full mb-4 lg:mb-0">
-            <video
-              autoPlay
-              playsInline
-              ref={videoRef}
-              className="w-full h-auto object-cover border-4 border-indigo-300 rounded-lg shadow-lg"
-            />
-            <button
-              onClick={handleStopCamera}
-              className="mt-4 w-full py-3 bg-red-500 text-white text-lg font-semibold rounded-lg shadow-lg hover:bg-red-600 transition duration-300"
-            >
-              Stop Camera & See results
-            </button>
-          </div>
-        ) : (
-          skinColor && dressColors && (
-            <div
-              className="w-full flex flex-col justify-center items-center lg:p-6 bg-indigo-100 p-6 rounded-lg shadow-lg"
-              style={{ backgroundColor: skinColor, height: '500px' }}
-            >
-              <p className="text-2xl font-semibold text-white mb-2 tracking-wide uppercase">Detected Skin Color:</p>
-              <p className="text-lg text-white mb-4 font-mono bg-gray-800 p-2 rounded-md shadow-inner">{skinColor}</p>
-  
-              <h2 className="text-3xl font-bold text-blue-400 mb-8 tracking-wider">Suggested Dress Colors</h2>
-  
-              <div className="grid grid-cols-3 gap-4">
-                {dressColors.map((color, index) => (
-                  <div
-                    key={index}
-                    className="p-12 rounded-lg shadow-xl transform hover:scale-105 transition-transform duration-300 ease-in-out"
-                    style={{ backgroundColor: color }}
-                  >
-                  
-                  </div> 
-                ))}
+      <div className="flex flex-col items-center justify-center min-h-screen p-6"
+           style={{backgroundImage: `url("https://img.freepik.com/free-vector/seamless-woman-s-stylish-bags-sketch_98292-4347.jpg?t=st=1728140009~exp=1728143609~hmac=ee5771bae4017ffb87f690fe8883cf24db25fe6f7d33de686e9d26d0219d839a&w=740")`}}>
+        <div className="bg-white shadow-2xl rounded-lg overflow-hidden p-6 w-full"
+             style={{maxWidth: '800px'}}> {/* Full width container */}
+          {isCameraActive && stream ? (
+              <div className="relative w-full lg:w-full mb-4 lg:mb-0">
+                <video
+                    autoPlay
+                    playsInline
+                    ref={videoRef}
+                    className="w-full h-auto object-cover border-4 border-indigo-300 rounded-lg shadow-lg"
+                />
+                <button
+                    onClick={handleStopCamera}
+                    className="mt-4 w-full py-3 bg-red-500 text-white text-lg font-semibold rounded-lg shadow-lg hover:bg-red-600 transition duration-300"
+                >
+                  Stop Camera & See results
+                </button>
               </div>
-            </div>
-          )
-        )}
+          ) : (
+              skinColor && dressColors && (
+                  <div
+                      className="w-full flex flex-col justify-center items-center lg:p-6 bg-indigo-100 p-6 rounded-lg shadow-lg"
+                      style={{backgroundColor: skinColor, height: '500px'}}
+                  >
+                    <p className="text-2xl font-semibold text-white mb-2 tracking-wide uppercase">Detected Skin
+                      Color:</p>
+                    <p className="text-lg text-white mb-4 font-mono bg-gray-800 p-2 rounded-md shadow-inner">{skinColor}</p>
+
+                    <h2 className="text-3xl font-bold text-blue-400 mb-8 tracking-wider">Suggested Dress Colors</h2>
+
+                    <div className="grid grid-cols-3 gap-4">
+                      {dressColors.map((color, index) => (
+                          <div
+                              key={index}
+                              className="p-12 rounded-lg shadow-xl transform hover:scale-105 transition-transform duration-300 ease-in-out"
+                              style={{backgroundColor: color}}
+                          >
+
+                          </div>
+                      ))}
+                    </div>
+                  </div>
+              )
+          )}
+        </div>
       </div>
-    </div>
   );
-};  
+};
 export default SkinColorDetectionApp;
