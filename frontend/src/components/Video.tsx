@@ -10,7 +10,7 @@ const PoseDetection = ({ image }) => {
   const ctxRef = useRef<CanvasRenderingContext2D | null>(null);
   const containerRef = useRef<HTMLDivElement | null>(null);
 
-  // Buffer to store previous keypoints for smoothing
+  // Buffer to store previous key points for smoothing
   const leftShoulderBuffer = useRef<[number, number][]>([]);
   const rightShoulderBuffer = useRef<[number, number][]>([]);
   const smoothingFrames = 5; // Number of frames for smoothing

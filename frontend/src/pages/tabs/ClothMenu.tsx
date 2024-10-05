@@ -32,6 +32,7 @@ import {fetchClothes} from "../../controller/cloth.controller.ts";
 
 export default function ClothMenu() {
   const [isAlertOpen, setIsAlertOpen] = useState(false);
+  const [isUploadFinished, setUploadFinished] = useState(false);
 
   const [file, setFile] = useState("");
   const [cloths, setCloths] = useState([]);
@@ -77,6 +78,7 @@ export default function ClothMenu() {
   // Upload Image to Firebase Storage
   useEffect(() => {
     const uploadImage = () => {
+      setUploadFinished(true);
       const file_name = "cloths_" + new Date().getTime() + "_" + file.name;
       const storageRef = ref(storage, file_name);
       const uploadTask = uploadBytesResumable(storageRef, file);
@@ -104,6 +106,7 @@ export default function ClothMenu() {
           getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
             console.log("File available at", downloadURL);
             setClothDetails({ ...clothDetails, image: downloadURL });
+            setUploadFinished(false);
           });
         }
       );
@@ -111,7 +114,7 @@ export default function ClothMenu() {
     if(file){
       uploadImage();
     }
-  }, [clothDetails, file]);
+  }, [file]);
 
   // Add Cloth to Firestore
   const handleClothSubmit = async (e) => {
@@ -125,7 +128,9 @@ export default function ClothMenu() {
         alert_message: "Cloth added successfully!",
       });
       setIsAlertOpen(true);
-      fetchCloths();
+      fetchClothes().then((cloths) => {
+        setCloths(cloths);
+      });
     } catch (error) {
       setAlertDetails({
         alert_topic: "Clothes",
@@ -136,7 +141,7 @@ export default function ClothMenu() {
     }
   };
 
-  //removing a dress
+  // Remove Cloth from Firestore
   const handleDeleteCloth = async (id) => {
     try {
       await deleteDoc(doc(db, "cloths", id));
@@ -246,8 +251,7 @@ export default function ClothMenu() {
                 {percentage !== undefined && percentage !== null && (
                   <span className="text-center text-green-500">
                     {percentage < 100
-                      ? `Uploading file ${percentage}% completed...`
-                      : "Upload finished!"}
+                      && `Uploading file ${percentage}% completed...`}
                   </span>
                 )}
 
@@ -256,12 +260,13 @@ export default function ClothMenu() {
                     Cancel
                   </Button>
                   <Button
-                    disabled={percentage !== null && percentage < 100}
+                    disabled={isUploadFinished}
+                    loading={ isUploadFinished}
                     size="sm"
                     type="submit"
                     color="red"
                   >
-                    Add Cloth
+                    {isUploadFinished ? "Uploading..." : "Add Cloth"}
                   </Button>
                 </div>
               </form>
