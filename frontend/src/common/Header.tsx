@@ -50,11 +50,22 @@ export default function Header() {
               }}>About Us</li>
             </Link>
             {user.user && (
-                <Link to={'/dashboard?tab=cloth'}>
-                  <li className="cursor-pointer text-sm" style={{
-                    fontFamily: "Abril Fatface",
-                  }}>My Clothes</li>
-                </Link>)
+                <div>
+                    <Link to={'/dashboard?tab=cloth'}>
+                        <li className="cursor-pointer text-sm" style={{
+                            fontFamily: "Abril Fatface",
+                        }}>My Clothes
+                        </li>
+                    </Link>
+                    <Link to={'/skin-color'}>
+                        <li className="cursor-pointer text-sm">Skin Color</li>
+                    </Link>
+
+                    <Link to={'/presets'}>
+                        <li className="cursor-pointer text-sm">Presets</li>
+                    </Link>
+                </div>
+            )
             }
           </ul>
         </div>
@@ -78,7 +89,6 @@ function ProfileMenu() {
   const navigate = useNavigate();
   const closeMenu = () => setIsMenuOpen(false);
   const dispatch = useDispatch();
-  console.log(user);
 
   const handleLogout = async () => {
     await LogoutUser(dispatch);
