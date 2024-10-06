@@ -5,7 +5,7 @@ import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {
   Avatar,
   Button,
-  Card,
+  Card, CardBody, CardFooter, CardHeader, Chip,
   Input,
   Option,
   Popover,
@@ -191,262 +191,238 @@ export default function ClothMenu() {
   };
 
   return (
-    <Card className=" w-full h-screen border-2 border-gray-800">
-      <AlertComponent
-        isOpen={isAlertOpen}
-        topic={alertDetails.alert_topic || "Clothes"}
-        is_success={alertDetails.is_success || false}
-        alert_message={alertDetails.alert_message || ""}
-      />
-      <div className="bg-gray-800 p-1 rounded-t-lg">
-        <Typography color="white" className="text-center uppercase">
-          Cloth Section
-        </Typography>
-      </div>
-      <div className="mt-2 flex justify-between p-2">
-        <ReportComponent reportData={cloths}/>
-        <Popover placement="bottom-start">
-          <PopoverHandler>
-            <Button size={"sm"} className="flex items-center gap-2" style={{backgroundColor: COLORS.ACCENT}}>
-              <FontAwesomeIcon icon={faPlus}/>
-              <Typography className="text-xs">Add New Cloth</Typography>
-            </Button>
-          </PopoverHandler>
-          <PopoverContent>
-            <div>
-              <Typography
-                color="blue-gray"
-                variant="h6"
-                className="text-center"
-              >
-                Add New Cloth
-              </Typography>
-              <form
-                className="grid grid-rows-4 gap-3 p-2"
-                onSubmit={handleClothSubmit}
-              >
-                <Input
-                  label="Cloth Name"
-                  name="clothName"
-                  onChange={handleOnChangeSubmit}
-                />
-                <Select
-                  name="clothType"
-                  label="Cloth Type"
-                  onChange={(value) =>
-                    setClothDetails({ ...clothDetails, clothType: value })
-                  }
-                >
-                  <Option value="shirt">Shirt</Option>
-                  <Option value="pants">Pants</Option>
-                  <Option value="shoes">Shoes</Option>
-                  <Option value="flock">Flock</Option>
-                </Select>
-                <Input
-                  label="Brand"
-                  name="brand"
-                  onChange={handleOnChangeSubmit}
-                />
-                <Input
-                  type="file"
-                  label="Upload Image"
-                  name="image"
-                  onChange={(e) => setFile(e.target.files[0])}
-                />
-                {percentage !== undefined && percentage !== null && (
-                  <span className="text-center text-green-500">
+   <div>
+
+     <AlertComponent
+         isOpen={isAlertOpen}
+         topic={alertDetails.alert_topic || "Clothes"}
+         is_success={alertDetails.is_success || false}
+         alert_message={alertDetails.alert_message || ""}
+     />
+
+     <div className="min-h-screen mb-4">
+       <div className={'p-10'} style={{
+         backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)), url('https://img.freepik.com/free-vector/seamless-woman-s-stylish-bags-retro-pattern_98292-4349.jpg?t=st=1728189648~exp=1728193248~hmac=0d99e6a4e1e69f21ef6809d77f215c3d8b02c8972321a74b32058d59ae648b65&w=740')`,
+       }} >
+         <Typography variant={'h1'}  className="text-center text-white" style={{
+              fontFamily: "Abril Fatface",
+         }}>
+           Cloth Section
+         </Typography>
+         <div className={'w-11/12 flex items-center justify-center text-center mx-auto'}  >
+            <Typography className={'text-center justify-center text-sm text-white'} style={{
+                fontFamily: "Abril Fatface",
+            }}>
+              Welcome to the hub of your virtual fashion collection! Add and manage the clothing items that power our AR Dressing Room. Upload the latest styles, tweak your collection, and remove outdated looks to keep your wardrobe fresh. Keep your collection on-trend and let your users explore fashion like never before!
+            </Typography>
+        </div>
+       </div>
+       <div className=" flex justify-end p-2 items-center gap-2 mt-4">
+         <ReportComponent reportData={cloths}/>
+         <Popover placement="bottom-start">
+           <PopoverHandler>
+             <Button className="flex items-center gap-2" >
+               <FontAwesomeIcon icon={faPlus}/>
+               <Typography className="text-xs font-semibold">Add New Cloth</Typography>
+             </Button>
+           </PopoverHandler>
+           <PopoverContent>
+             <div>
+               <Typography
+                   color="blue-gray"
+                   variant="h6"
+                   className="text-center"
+               >
+                 Add New Cloth
+               </Typography>
+               <form
+                   className="grid grid-rows-4 gap-3 p-2"
+                   onSubmit={handleClothSubmit}
+               >
+                 <Input
+                     label="Cloth Name"
+                     name="clothName"
+                     onChange={handleOnChangeSubmit}
+                 />
+                 <Select
+                     name="clothType"
+                     label="Cloth Type"
+                     onChange={(value) =>
+                         setClothDetails({ ...clothDetails, clothType: value })
+                     }
+                 >
+                   <Option value="shirt">Shirt</Option>
+                   <Option value="pants">Pants</Option>
+                   <Option value="shoes">Shoes</Option>
+                   <Option value="flock">Flock</Option>
+                 </Select>
+                 <Input
+                     label="Brand"
+                     name="brand"
+                     onChange={handleOnChangeSubmit}
+                 />
+                 <Input
+                     type="file"
+                     label="Upload Image"
+                     name="image"
+                     onChange={(e) => setFile(e.target.files[0])}
+                 />
+                 {percentage !== undefined && percentage !== null && (
+                     <span className="text-center text-green-500">
                     {percentage < 100
-                      && `Uploading file ${percentage}% completed...`}
+                        && `Uploading file ${percentage}% completed...`}
                   </span>
-                )}
+                 )}
 
-                <div className="grid grid-cols-2 gap-2">
-                  <Button size="sm" type="button">
-                    Cancel
-                  </Button>
-                  <Button
-                    disabled={isUploadFinished}
-                    loading={ isUploadFinished}
-                    size="sm"
-                    type="submit"
-                    color="red"
-                  >
-                    {isUploadFinished ? "Uploading..." : "Add Cloth"}
-                  </Button>
-                </div>
-              </form>
-            </div>
-          </PopoverContent>
-        </Popover>
-      </div>
+                 <div className="grid grid-cols-2 gap-2">
+                   <Button size="sm" type="button">
+                     Cancel
+                   </Button>
+                   <Button
+                       disabled={isUploadFinished}
+                       loading={ isUploadFinished}
+                       size="sm"
+                       type="submit"
+                       color="red"
+                   >
+                     {isUploadFinished ? "Uploading..." : "Add Cloth"}
+                   </Button>
+                 </div>
+               </form>
+             </div>
+           </PopoverContent>
+         </Popover>
+       </div>
 
-      <div className="w-full p-2">
-        <table className="w-full border-2 border-gray-800">
-          <thead>
-            <tr className="bg-gray-800 text-white ">
-              <th className="p-2"></th>
-              <th className="p-2 text-start">Cloth Name</th>
-              <th className="p-2 text-start">Cloth Type</th>
-              <th className="p-2 text-start">Brand</th>
-              <th className="p-2 ">Actions</th>
-            </tr>
-          </thead>
-          <tbody>
-            {cloths.map((cloth, index) => (
-              <tr key={index}>
-                <td className="p-2">
-                  <Avatar
-                    size="sm"
-                    className="border-2 border-gray-800"
-                    src={cloth.image}
-                  />
-                </td>
-                <td className="p-2">{cloth.clothName}</td>
-                <td className="p-2">{cloth.clothType}</td>
-                <td className="p-2">{cloth.brand}</td>
-                <td className="p-2 grid grid-cols-3 gap-2">
-                  <Popover
-                    placement="bottom-start"
-                    animate={{
-                      mount: { scale: 1, y: 0 },
-                      unmount: { scale: 0, y: 25 },
-                    }}
-                  >
-                    <PopoverHandler>
-                      <Button variant="outlined" size="sm" color="blue">
-                        Update
-                      </Button>
-                    </PopoverHandler>
-                    <PopoverContent className=" ">
-                      <Typography
-                        className="text-center"
-                        color="blue-gray"
-                        variant="h6"
-                      >
-                        Update Cloth
-                      </Typography>
-                      <form
-                        className="grid grid-rows-4 gap-3 p-2"
-                        onSubmit={(e) => {
-                          e.preventDefault();
-                          handleUpdateCloth(cloth.id, clothDetails);
-                        }}
-                      >
-                        <Input
-                          label="Cloth Name"
-                          name="clothName"
-                          defaultValue={cloth.clothName}
-                          onChange={(e) =>
-                            setClothDetails({
-                              ...clothDetails,
-                              clothName: e.target.value,
-                            })
-                          }
-                        />
-                        <Select
-                          name="clothType"
-                          label="Cloth Type"
-                          defaultValue={cloth.clothType}
-                          onChange={(value) =>
-                            setClothDetails({
-                              ...clothDetails,
-                              clothType: value,
-                            })
-                          }
-                        >
-                          <Option value="shirt">Shirt</Option>
-                          <Option value="pants">Pants</Option>
-                          <Option value="shoes">Shoes</Option>
-                          <Option value="flock">Flock</Option>
-                        </Select>
-                        <Input
-                          label="Brand"
-                          defaultValue={cloth.brand}
-                          name="brand"
-                          onChange={(e) =>
-                            setClothDetails({
-                              ...clothDetails,
-                              brand: e.target.value,
-                            })
-                          }
-                        />
+       <div className={'w-screen grid grid-cols-4 gap-4 p-4'}>
+         {cloths.map((cloth, index) => (
+             <Card key={index} className={'w-96 h-full p-4'}>
+               <Chip color={'yellow'} className={'absolute top-2 right-2 z-50'} value={cloth.clothType}></Chip>
+               <CardHeader floated={false} shadow={false}>
+                 <img alt={cloth.image} src={cloth.image}/>
+               </CardHeader>
+               <CardBody>
+                 <Typography className="text-center font-semibold text-gray-900 text-2xl" style={{
+                   fontFamily: "Abril Fatface",
+                 }}>
+                   {cloth.clothName}
+                 </Typography>
+                 <Typography className="text-center text-gray-900 mb-2" style={{
+                   fontFamily: "Abril Fatface",
+                 }}>
+                   {cloth.brand}
+                 </Typography>
+               </CardBody>
 
-                        <Button size="sm" type="submit" color="blue">
-                          Update Cloth
-                        </Button>
-                      </form>
-                    </PopoverContent>
-                  </Popover>
+                 <div className={'grid grid-cols-2 gap-2 -mt-6'}>
+                   <Popover
+                       placement="bottom-start"
+                       animate={{
+                         mount: { scale: 1, y: 0 },
+                         unmount: { scale: 0, y: 25 },
+                       }}
+                   >
+                     <PopoverHandler>
+                       <Button variant="outlined" size="sm" color="blue">
+                         Update
+                       </Button>
+                     </PopoverHandler>
+                     <PopoverContent className=" ">
+                       <Typography
+                           className="text-center"
+                           color="blue-gray"
+                           variant="h6"
+                       >
+                         Update Cloth
+                       </Typography>
+                       <form
+                           className="grid grid-rows-4 gap-3 p-2"
+                           onSubmit={(e) => {
+                             e.preventDefault();
+                             handleUpdateCloth(cloth.id, clothDetails);
+                           }}
+                       >
+                         <Input
+                             label="Cloth Name"
+                             name="clothName"
+                             defaultValue={cloth.clothName}
+                             onChange={(e) =>
+                                 setClothDetails({
+                                   ...clothDetails,
+                                   clothName: e.target.value,
+                                 })
+                             }
+                         />
+                         <input className={'w-0 h-0'} name={'image'} value={cloth.image} hidden/>
+                         <Select
+                             name="clothType"
+                             label="Cloth Type"
+                             defaultValue={cloth.clothType}
+                             onChange={(value) =>
+                                 setClothDetails({
+                                   ...clothDetails,
+                                   clothType: value,
+                                 })
+                             }
+                         >
+                           <Option value="shirt">Shirt</Option>
+                           <Option value="pants">Pants</Option>
+                           <Option value="shoes">Shoes</Option>
+                           <Option value="flock">Flock</Option>
+                         </Select>
+                         <Input
+                             label="Brand"
+                             defaultValue={cloth.brand}
+                             name="brand"
+                             onChange={(e) =>
+                                 setClothDetails({
+                                   ...clothDetails,
+                                   brand: e.target.value,
+                                 })
+                             }
+                         />
 
-                  <Popover
-                    placement="bottom-start"
-                    animate={{
-                      mount: { scale: 1, y: 0 },
-                      unmount: { scale: 0, y: 25 },
-                    }}
-                  >
-                    <PopoverHandler>
-                      <Button variant="outlined" size="sm" color="red">
-                        Remove
-                      </Button>
-                    </PopoverHandler>
-                    <PopoverContent className="border-2 border-gray-900 bg-gray-800">
-                      <div className="gap-2 grid grid-rows-2 ">
-                        <Typography className="" variant="h6" color="white">
-                          Want to remove this dress?
-                        </Typography>
-                        <Button
-                          onClick={() => handleDeleteCloth(cloth.id)}
-                          variant="filled"
-                          size="sm"
-                          color="red"
-                        >
-                          Remove
-                        </Button>
-                      </div>
-                    </PopoverContent>
-                  </Popover>
+                         <Button size="sm" type="submit" color="blue">
+                           Update Cloth
+                         </Button>
+                       </form>
+                     </PopoverContent>
+                   </Popover>
+                   <Popover
+                       placement="bottom-start"
+                       animate={{
+                         mount: { scale: 1, y: 0 },
+                         unmount: { scale: 0, y: 25 },
+                       }}
+                   >
+                     <PopoverHandler>
+                       <Button variant="outlined" size="sm" color="red">
+                         Remove
+                       </Button>
+                     </PopoverHandler>
+                     <PopoverContent className="border-2 border-gray-900 bg-gray-800">
+                       <div className="gap-2 grid grid-rows-2 ">
+                         <Typography className="" variant="h6" color="white">
+                           Want to remove this dress?
+                         </Typography>
+                         <Button
+                             onClick={() => handleDeleteCloth(cloth.id)}
+                             variant="filled"
+                             size="sm"
+                             color="red"
+                         >
+                           Remove
+                         </Button>
+                       </div>
+                     </PopoverContent>
+                   </Popover>
+                 </div>
 
-                  <Popover
-                    placement="bottom-start"
-                    animate={{
-                      mount: { scale: 1, y: 0 },
-                      unmount: { scale: 0, y: 25 },
-                    }}
-                  >
-                    <PopoverHandler>
-                      <Button variant="outlined" size="sm" color="green">
-                        View
-                      </Button>
-                    </PopoverHandler>
-                    <PopoverContent>
-                      <Card className="border-2 border-gray-800 ">
-                        <div className="flex gap-4 bg-gray-800 rounded-t-lg p-2">
-                          <div className="">
-                            <Typography
-                              className="-mb-2 "
-                              color="white"
-                              variant="h4"
-                            >
-                              {cloth.clothName}
-                            </Typography>
-                            <Typography color="white" variant="paragraph">
-                              {cloth.clothType}
-                            </Typography>
-                          </div>
-                        </div>
-                        <div className="p-2">
-                          <img src={cloth.image} alt="cloth" className="h-52" />
-                        </div>
-                      </Card>
-                    </PopoverContent>
-                  </Popover>
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
-    </Card>
+             </Card>
+         )
+         )}
+       </div>
+     </div>
+   </div>
   );
 }

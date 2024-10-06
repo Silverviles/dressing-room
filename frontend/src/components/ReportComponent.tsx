@@ -87,7 +87,7 @@ const ReportComponent = ({reportData}) => {
 
     return (
         <div>
-            <Button className={"mt-4"} onClick={generatePDF}>
+            <Button variant={'outlined'} onClick={generatePDF}>
                 Download Report
             </Button>
         </div>

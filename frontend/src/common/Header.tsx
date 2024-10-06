@@ -51,12 +51,18 @@ export default function Header() {
             </Link>
             {user.user && (
                 <div className={'flex flex-row gap-4'}>
-                    <Link to={'/dashboard?tab=cloth'}>
+                    <Link to={'/cloth'}>
                         <li className="cursor-pointer text-sm" style={{
                             fontFamily: "Abril Fatface",
                         }}>My Clothes
                         </li>
                     </Link>
+                  <Link to={'/dress'}>
+                    <li className="cursor-pointer text-sm" style={{
+                      fontFamily: "Abril Fatface",
+                    }}>Dress Room
+                    </li>
+                  </Link>
                     <Link to={'/skin-color'}>
                         <li className="cursor-pointer text-sm" style={{
                           fontFamily: "Abril Fatface",

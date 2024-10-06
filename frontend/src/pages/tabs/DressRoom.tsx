@@ -34,7 +34,7 @@ export const DressRoom = () => {
   }, []);
 
   return (
-    <div className="w-full flex gap-2 ">
+    <div className="w-full flex gap-2 p-4">
       <Card className="w-3/12 h-screen ">
         <Typography className="text-center bg-gray-800 text-white rounded-t-lg p-2" style={{
           fontFamily: "Abril Fatface",
@@ -91,7 +91,7 @@ export const DressRoom = () => {
         <Video key={selectedCloth} image={selectedCloth} />
         <ClothTryoutReport/>
       </Card>
-      <Card className="w-3/12 overflow-y-scroll h-screen" id="scnShotDiv">
+      <Card className="w-4/12 overflow-y-scroll h-screen" id="scnShotDiv">
         {/* Screenshot functionality can go here */}
       </Card>
       <div className="relative">
