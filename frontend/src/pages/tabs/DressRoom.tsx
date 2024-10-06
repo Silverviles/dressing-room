@@ -14,10 +14,12 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTShirt } from "@fortawesome/free-solid-svg-icons";
 import Video from "../../components/Video.tsx";
 import ClothTryoutReport from "../../components/ClothTryoutReport.tsx";
+import Chatbot from "../../components/Chatbot.tsx";
 
 export const DressRoom = () => {
   const [clothes, setClothes] = useState([]);
   const [selectedCloth, setSelectedCloth] = useState("");
+  const [isChatbotOpen, setIsChatbotOpen] = useState(false);
 
   const handleClothSelect = (clothImage) => {
     setSelectedCloth(clothImage);
@@ -89,10 +91,28 @@ export const DressRoom = () => {
         <Video key={selectedCloth} image={selectedCloth} />
         <ClothTryoutReport/>
       </Card>
-
-      <Card className="w-3/12">
+      <Card className="w-3/12 overflow-y-scroll h-screen" id="scnShotDiv">
         {/* Screenshot functionality can go here */}
       </Card>
+      <div className="relative">
+          <div className="fixed bottom-4 right-10 w-128">
+            <button
+              className="w-full bg-blue-500 text-white p-2 rounded-lg"
+              onClick={() => setIsChatbotOpen(!isChatbotOpen)}
+            >
+              {isChatbotOpen ? "Close Assistant" : "Assistant"}
+            </button>
+            {isChatbotOpen && (
+              <div className="mt-2 w-full bg-gray-200 p-2 rounded-lg"
+              style={{
+                maxHeight: "400px", // Set a maximum height for the chatbot
+                overflowY: "auto", // Enable scrolling when content exceeds the height
+              }}>
+                <Chatbot />
+              </div>
+            )}
+          </div>
+        </div>
     </div>
   );
 };
