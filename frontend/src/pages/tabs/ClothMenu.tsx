@@ -294,129 +294,131 @@ export default function ClothMenu() {
          </Popover>
        </div>
 
-       <div className={'w-screen grid grid-cols-4 gap-4 p-4'}>
+       <div className={'w-screen grid grid-cols-3 p-4'}>
          {cloths.map((cloth, index) => (
-             <Card key={index} className={'w-96 h-full p-4'}>
-               <Chip color={'yellow'} className={'absolute top-2 right-2 z-50'} value={cloth.clothType}></Chip>
-                 <img className={'h-96'} alt={cloth.image} src={cloth.image}/>
-               <CardBody>
-                 <Typography className="text-center font-semibold text-gray-900 text-2xl" style={{
-                   fontFamily: "Abril Fatface",
-                 }}>
-                   {cloth.clothName}
-                 </Typography>
-                 <Typography className="text-center text-gray-900 mb-2" style={{
-                   fontFamily: "Abril Fatface",
-                 }}>
-                   {cloth.brand}
-                 </Typography>
-               </CardBody>
+            <div className={'mb-4'}>
+              <Card key={index} className={'w-96 h-full p-4'}>
+                <Chip color={'yellow'} className={'absolute top-2 right-2 z-20'} value={cloth.clothType}></Chip>
+                <img className={'h-96'} alt={cloth.image} src={cloth.image}/>
+                <CardBody>
+                  <Typography className="text-center font-semibold text-gray-900 text-2xl" style={{
+                    fontFamily: "Abril Fatface",
+                  }}>
+                    {cloth.clothName}
+                  </Typography>
+                  <Typography className="text-center text-gray-900 mb-2" style={{
+                    fontFamily: "Abril Fatface",
+                  }}>
+                    {cloth.brand}
+                  </Typography>
+                </CardBody>
 
-                 <div className={'grid grid-cols-2 gap-2 -mt-6'}>
-                   <Popover
-                       placement="bottom-start"
-                       animate={{
-                         mount: { scale: 1, y: 0 },
-                         unmount: { scale: 0, y: 25 },
-                       }}
-                   >
-                     <PopoverHandler>
-                       <Button variant="outlined" size="sm" color="blue">
-                         Update
-                       </Button>
-                     </PopoverHandler>
-                     <PopoverContent className=" ">
-                       <Typography
-                           className="text-center"
-                           color="blue-gray"
-                           variant="h6"
-                       >
-                         Update Cloth
-                       </Typography>
-                       <form
-                           className="grid grid-rows-4 gap-3 p-2"
-                           onSubmit={(e) => {
-                             e.preventDefault();
-                             handleUpdateCloth(cloth.id, clothDetails);
-                           }}
-                       >
-                         <Input
-                             label="Cloth Name"
-                             name="clothName"
-                             defaultValue={cloth.clothName}
-                             onChange={(e) =>
-                                 setClothDetails({
-                                   ...clothDetails,
-                                   clothName: e.target.value,
-                                 })
-                             }
-                         />
-                         <input className={'w-0 h-0'} name={'image'} value={cloth.image} hidden/>
-                         <Select
-                             name="clothType"
-                             label="Cloth Type"
-                             defaultValue={cloth.clothType}
-                             onChange={(value) =>
-                                 setClothDetails({
-                                   ...clothDetails,
-                                   clothType: value,
-                                 })
-                             }
-                         >
-                           <Option value="shirt">Shirt</Option>
-                           <Option value="pants">Pants</Option>
-                           <Option value="shoes">Shoes</Option>
-                           <Option value="flock">Flock</Option>
-                         </Select>
-                         <Input
-                             label="Brand"
-                             defaultValue={cloth.brand}
-                             name="brand"
-                             onChange={(e) =>
-                                 setClothDetails({
-                                   ...clothDetails,
-                                   brand: e.target.value,
-                                 })
-                             }
-                         />
+                <div className={'grid grid-cols-2 gap-2 -mt-6'}>
+                  <Popover
+                      placement="bottom-start"
+                      animate={{
+                        mount: { scale: 1, y: 0 },
+                        unmount: { scale: 0, y: 25 },
+                      }}
+                  >
+                    <PopoverHandler>
+                      <Button variant="outlined" size="sm" color="blue">
+                        Update
+                      </Button>
+                    </PopoverHandler>
+                    <PopoverContent className=" ">
+                      <Typography
+                          className="text-center"
+                          color="blue-gray"
+                          variant="h6"
+                      >
+                        Update Cloth
+                      </Typography>
+                      <form
+                          className="grid grid-rows-4 gap-3 p-2"
+                          onSubmit={(e) => {
+                            e.preventDefault();
+                            handleUpdateCloth(cloth.id, clothDetails);
+                          }}
+                      >
+                        <Input
+                            label="Cloth Name"
+                            name="clothName"
+                            defaultValue={cloth.clothName}
+                            onChange={(e) =>
+                                setClothDetails({
+                                  ...clothDetails,
+                                  clothName: e.target.value,
+                                })
+                            }
+                        />
+                        <input className={'w-0 h-0'} name={'image'} value={cloth.image} hidden/>
+                        <Select
+                            name="clothType"
+                            label="Cloth Type"
+                            defaultValue={cloth.clothType}
+                            onChange={(value) =>
+                                setClothDetails({
+                                  ...clothDetails,
+                                  clothType: value,
+                                })
+                            }
+                        >
+                          <Option value="shirt">Shirt</Option>
+                          <Option value="pants">Pants</Option>
+                          <Option value="shoes">Shoes</Option>
+                          <Option value="flock">Flock</Option>
+                        </Select>
+                        <Input
+                            label="Brand"
+                            defaultValue={cloth.brand}
+                            name="brand"
+                            onChange={(e) =>
+                                setClothDetails({
+                                  ...clothDetails,
+                                  brand: e.target.value,
+                                })
+                            }
+                        />
 
-                         <Button size="sm" type="submit" color="blue">
-                           Update Cloth
-                         </Button>
-                       </form>
-                     </PopoverContent>
-                   </Popover>
-                   <Popover
-                       placement="bottom-start"
-                       animate={{
-                         mount: { scale: 1, y: 0 },
-                         unmount: { scale: 0, y: 25 },
-                       }}
-                   >
-                     <PopoverHandler>
-                       <Button variant="outlined" size="sm" color="red">
-                         Remove
-                       </Button>
-                     </PopoverHandler>
-                     <PopoverContent className="border-2 border-gray-900 bg-gray-800">
-                       <div className="gap-2 grid grid-rows-2 ">
-                         <Typography className="" variant="h6" color="white">
-                           Want to remove this dress?
-                         </Typography>
-                         <Button
-                             onClick={() => handleDeleteCloth(cloth.id)}
-                             variant="filled"
-                             size="sm"
-                             color="red"
-                         >
-                           Remove
-                         </Button>
-                       </div>
-                     </PopoverContent>
-                   </Popover>
-                 </div>
+                        <Button size="sm" type="submit" color="blue">
+                          Update Cloth
+                        </Button>
+                      </form>
+                    </PopoverContent>
+                  </Popover>
+                  <Popover
+                      placement="bottom-start"
+                      animate={{
+                        mount: { scale: 1, y: 0 },
+                        unmount: { scale: 0, y: 25 },
+                      }}
+                  >
+                    <PopoverHandler>
+                      <Button variant="outlined" size="sm" color="red">
+                        Remove
+                      </Button>
+                    </PopoverHandler>
+                    <PopoverContent className="border-2 border-gray-900 bg-gray-800">
+                      <div className="gap-2 grid grid-rows-2 ">
+                        <Typography className="" variant="h6" color="white">
+                          Want to remove this dress?
+                        </Typography>
+                        <Button
+                            onClick={() => handleDeleteCloth(cloth.id)}
+                            variant="filled"
+                            size="sm"
+                            color="red"
+                        >
+                          Remove
+                        </Button>
+                      </div>
+                    </PopoverContent>
+                  </Popover>
+                </div>
 
-             </Card>
+              </Card>
+            </div>
          )
          )}
        </div>
