@@ -13,6 +13,7 @@ import { fetchClothes } from "../../controller/cloth.controller.ts";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTShirt } from "@fortawesome/free-solid-svg-icons";
 import Video from "../../components/Video.tsx";
+import ClothTryoutReport from "../../components/ClothTryoutReport.tsx";
 import Chatbot from "../../components/Chatbot.tsx";
 
 export const DressRoom = () => {
@@ -88,8 +89,9 @@ export const DressRoom = () => {
               Select a cloth
             </Typography>)}
         <Video key={selectedCloth} image={selectedCloth} />
+        <ClothTryoutReport/>
       </Card>
-      <Card className="w-3/12 overflow-y-scroll" id="scnShotDiv">
+      <Card className="w-3/12 overflow-y-scroll h-screen" id="scnShotDiv">
         {/* Screenshot functionality can go here */}
       </Card>
       <div className="relative">
