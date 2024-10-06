@@ -270,7 +270,7 @@ export default function ClothMenu() {
                  {percentage !== undefined && percentage !== null && (
                      <span className="text-center text-green-500">
                     {percentage < 100
-                        && `Uploading file ${percentage}% completed...`}
+                        && `Uploading file ${Math.floor(percentage)}% completed...`}
                   </span>
                  )}
 
@@ -298,9 +298,7 @@ export default function ClothMenu() {
          {cloths.map((cloth, index) => (
              <Card key={index} className={'w-96 h-full p-4'}>
                <Chip color={'yellow'} className={'absolute top-2 right-2 z-50'} value={cloth.clothType}></Chip>
-               <CardHeader floated={false} shadow={false}>
-                 <img alt={cloth.image} src={cloth.image}/>
-               </CardHeader>
+                 <img className={'h-96'} alt={cloth.image} src={cloth.image}/>
                <CardBody>
                  <Typography className="text-center font-semibold text-gray-900 text-2xl" style={{
                    fontFamily: "Abril Fatface",
