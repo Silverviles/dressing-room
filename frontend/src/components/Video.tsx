@@ -411,27 +411,26 @@ const PoseDetection = ({ image }) => {
         <video ref={videoRef} autoPlay playsInline style={videoStyles}/>
         <canvas ref={canvasRef} style={canvasStyles}/>
       </div>
-      <CardFooter className="p-0 pb-2" style={{ marginTop: '20px' }}>
+      <CardFooter className="p-0 pb-2 flex items-center gap-2 justify-between w-full" style={{ marginTop: '20px' }}>
         <Button
             onClick={() => takePhoto()}
             fullWidth
-            className="flex gap-2 items-center justify-center"
+
         >
-          <Typography className="text-xs">Take Image</Typography>
+          Take Image
         </Button>
         <Button
           onClick={clearPhotos}
           fullWidth
-          className="flex gap-2 items-center justify-center mt-2"
         >
-          <Typography className="text-xs">Clear Images</Typography>
+         Clear Images
         </Button>
         <Button
           onClick={downloadPhotosAsPDF} // New download button
           fullWidth
-          className="flex gap-2 items-center justify-center mt-2"
+
         >
-          <Typography className="text-xs">Download PDF</Typography>
+          Download PDF
         </Button>
       </CardFooter>
     </>
