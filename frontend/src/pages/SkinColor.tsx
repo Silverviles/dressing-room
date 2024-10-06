@@ -136,6 +136,15 @@ const SkinColorDetectionApp: React.FC = () => {
               ref={videoRef}
               className="w-full h-auto object-cover border-4 border-indigo-300 rounded-lg shadow-lg"
             />
+            {skinColor && (
+              <div 
+                className="mt-4 p-4 rounded-lg shadow-lg text-center"
+                style={{ backgroundColor: skinColor }}  // Set the background color to detected skin color
+              >
+                <p className="text-lg font-semibold text-white">Detected Skin Color:</p>
+                <p className="text-md font-mono text-white bg-gray-800 p-2 rounded-md">{skinColor}</p> {/* Text label for RGB */}
+              </div>
+            )}
             <button
               onClick={handleStopCamera}
               className="mt-4 w-full py-3 bg-red-500 text-white text-lg font-semibold rounded-lg shadow-lg hover:bg-red-600 transition duration-300"
@@ -171,5 +180,6 @@ const SkinColorDetectionApp: React.FC = () => {
       </div>
     </div>
   );
-};  
+};
+
 export default SkinColorDetectionApp;
