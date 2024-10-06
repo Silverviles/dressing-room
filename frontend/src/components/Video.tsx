@@ -1,8 +1,8 @@
 import * as React from "react";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import * as poseNet from "@tensorflow-models/posenet";
 import "@tensorflow/tfjs";
-import { Button, CardFooter, Typography } from "@material-tailwind/react";
+import { Button, CardFooter } from "@material-tailwind/react";
 import jsPDF from "jspdf";
 // import tshirt from "../images/orange.png";
 
@@ -13,6 +13,10 @@ const PoseDetection = ({ image }) => {
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
   const ctxRef = useRef<CanvasRenderingContext2D | null>(null);
   const containerRef = useRef<HTMLDivElement | null>(null);
+
+  // New states for countdown
+  const [countdown, setCountdown] = useState<number>(0);
+  const [isTakingImage, setIsTakingImage] = useState<boolean>(false);
 
   // Buffer to store previous key points for smoothing
   const leftShoulderBuffer = useRef<[number, number][]>([]);
@@ -370,6 +374,48 @@ const PoseDetection = ({ image }) => {
     document.getElementById("scnShotDiv")!.appendChild(mergedCanvas);
   }
 
+  // const takePhoto = () => {
+  //   if (isTakingImage) return; // Prevent taking photo if already in countdown
+
+  //   setIsTakingImage(true);
+  //   setCountdown(3); // Set countdown duration (in seconds)
+
+  //   const countdownInterval = setInterval(() => {
+  //     setCountdown((prev) => {
+  //       if (prev === 1) {
+  //         clearInterval(countdownInterval);
+  //         captureImage(); // Capture image once countdown ends
+  //         setIsTakingImage(false);
+  //         return 0; // Reset countdown
+  //       }
+  //       return prev - 1; // Decrease countdown
+  //     });
+  //   }, 1000); // Update countdown every second
+  // };
+
+  // const captureImage = () => {
+  //   const video = videoRef.current;
+  //   const canvas = canvasRef.current;
+
+  //   if (!video || !canvas) return;
+
+  //   // Create a new canvas to merge video and existing canvas
+  //   const mergedCanvas = document.createElement("canvas");
+  //   mergedCanvas.width = canvas.width;
+  //   mergedCanvas.height = canvas.height;
+
+  //   const mergedCtx = mergedCanvas.getContext("2d");
+
+  //   // Draw video frame onto merged canvas
+  //   mergedCtx?.drawImage(video, 0, 0, mergedCanvas.width, mergedCanvas.height);
+
+  //   // Draw the canvas contents (T-shirt image) on top of the video frame
+  //   mergedCtx?.drawImage(canvas, 0, 0, mergedCanvas.width, mergedCanvas.height);
+
+  //   document.getElementById("scnShotDiv")!.appendChild(mergedCanvas);
+  // };
+
+
   const clearPhotos = () => {
     const screenshotDiv = document.getElementById("scnShotDiv");
     if (screenshotDiv) {
@@ -425,13 +471,13 @@ const PoseDetection = ({ image }) => {
         >
          Clear Images
         </Button>
-        <Button
+        {/* <Button
           onClick={downloadPhotosAsPDF} // New download button
           fullWidth
 
         >
           Download PDF
-        </Button>
+        </Button> */}
       </CardFooter>
     </>
 );
