@@ -14,7 +14,7 @@ import {
   PopoverHandler,
   Select,
   Typography,
-} from "@material-tailwind/react";
+} from "../../common/ui";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { AlertComponent } from "../../common/AlertComponent.tsx";

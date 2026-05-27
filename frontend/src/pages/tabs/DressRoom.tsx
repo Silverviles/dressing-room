@@ -8,7 +8,7 @@ import {
   CardFooter,
   Chip,
   Typography,
-} from "@material-tailwind/react";
+} from "../../common/ui";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import {
@@ -19,7 +19,7 @@ import {
 } from "../../controller/cloth.controller.ts";
 import { resolveAssetUrl } from "../../api/client.ts";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faExternalLinkAlt, faHeart, faTShirt } from "@fortawesome/free-solid-svg-icons";
+import { faExternalLinkAlt, faHeart, faRobot, faTShirt, faXmark } from "@fortawesome/free-solid-svg-icons";
 import Video from "../../components/Video.tsx";
 
 const ClothTryoutReport = lazy(() => import("../../components/ClothTryoutReport.tsx"));
@@ -147,16 +147,18 @@ export const DressRoom = () => {
       </Card>
       <Card className="w-4/12 overflow-y-scroll h-screen" id="scnShotDiv" />
       <div className="relative">
-        <div className="fixed bottom-4 right-10 w-128">
+        <div className="fixed bottom-4 right-10">
           <button
-            className="w-full bg-blue-500 text-white p-2 rounded-lg"
+            className="h-14 w-14 rounded-full bg-blue-600 text-white shadow-lg transition hover:bg-blue-700"
             onClick={() => setIsChatbotOpen(!isChatbotOpen)}
+            aria-label={isChatbotOpen ? "Close Assistant" : "Open Assistant"}
+            title={isChatbotOpen ? "Close Assistant" : "Open Assistant"}
           >
-            {isChatbotOpen ? "Close Assistant" : "Assistant"}
+            <FontAwesomeIcon icon={isChatbotOpen ? faXmark : faRobot} className="text-xl" />
           </button>
           {isChatbotOpen && (
             <div
-              className="mt-2 w-full bg-gray-200 p-2 rounded-lg"
+              className="mt-2 w-80 bg-gray-200 p-2 rounded-lg"
               style={{ maxHeight: "400px", overflowY: "auto" }}
             >
               <Suspense fallback={<div className="text-sm text-gray-600 p-2">Loading assistant...</div>}>

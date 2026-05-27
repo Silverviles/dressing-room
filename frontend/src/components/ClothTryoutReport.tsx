@@ -1,6 +1,6 @@
 // @ts-nocheck
 import { useSelector } from "react-redux";
-import { Button } from "@material-tailwind/react";
+import { Button } from "../common/ui";
 import { api } from "../api/client";
 
 const ClothTryoutReport = () => {
@@ -19,8 +19,8 @@ const ClothTryoutReport = () => {
     };
 
     return (
-        <div className="">
-            <Button className="mt-4" onClick={generatePDF}>
+        <div className="mt-2 mb-3 flex justify-center">
+            <Button className="px-5 py-2" onClick={generatePDF}>
                 Download Report
             </Button>
         </div>

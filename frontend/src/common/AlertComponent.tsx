@@ -1,5 +1,5 @@
 // @ts-nocheck
-import { Alert } from "@material-tailwind/react";
+import { Alert } from "./ui";
 
 function SuccessIcon() {
   return (

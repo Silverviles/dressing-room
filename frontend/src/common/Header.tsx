@@ -8,7 +8,7 @@ import {
   Avatar,
   Button, Menu, MenuHandler, MenuItem, MenuList,
   Typography,
-} from "@material-tailwind/react";
+} from "./ui";
 import {useDispatch, useSelector} from "react-redux";
 import {Link, useNavigate} from "react-router-dom";
 import {logoutCurrentUser} from "../controller/auth.controller.js";

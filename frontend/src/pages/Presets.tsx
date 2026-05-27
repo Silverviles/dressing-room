@@ -1,7 +1,7 @@
 // @ts-nocheck
 import React, { useState } from 'react';
 import { useSelector } from "react-redux";
-import {Button, Typography} from "@material-tailwind/react";
+import {Button, Typography} from "../common/ui";
 import { api } from "../api/client";
 
 interface ClothingItem {

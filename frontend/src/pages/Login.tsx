@@ -1,6 +1,6 @@
 // @ts-nocheck
 import { useState } from "react";
-import { Button, Input, Typography } from "@material-tailwind/react";
+import { Button, Input, Typography } from "../common/ui";
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { loginWithPassword } from "../controller/auth.controller.js";

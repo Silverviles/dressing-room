@@ -8,7 +8,7 @@ import {
   CardBody,
   Chip,
   Typography,
-} from "@material-tailwind/react";
+} from "../common/ui";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faExternalLinkAlt, faHeartBroken } from "@fortawesome/free-solid-svg-icons";
 import { fetchFavorites, removeFavorite } from "../controller/cloth.controller.ts";

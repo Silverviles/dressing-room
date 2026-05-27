@@ -1,7 +1,7 @@
 // @ts-nocheck
 
 
-import { Typography } from "@material-tailwind/react";
+import { Typography } from "./ui";
 import LOGO from "../images/logo.png";
 
 const LINKS = [

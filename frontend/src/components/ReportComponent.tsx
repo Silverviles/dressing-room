@@ -1,6 +1,6 @@
 // @ts-nocheck
 import { useSelector } from "react-redux";
-import { Button } from "@material-tailwind/react";
+import { Button } from "../common/ui";
 import { api } from "../api/client";
 
 const ReportComponent = () => {

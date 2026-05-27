@@ -24,6 +24,23 @@ export default defineConfig({
             return "vendor-ui";
           }
           if (id.includes("@fortawesome")) return "vendor-icons";
+          if (
+            id.includes("@mediapipe/tasks-vision") ||
+            id.includes("@mediapipe/")
+          ) {
+            return "vendor-vision";
+          }
+          if (
+            id.includes("react-markdown") ||
+            id.includes("remark-") ||
+            id.includes("rehype-") ||
+            id.includes("unified") ||
+            id.includes("micromark") ||
+            id.includes("mdast-") ||
+            id.includes("hast-")
+          ) {
+            return "vendor-markdown";
+          }
           if (id.includes("react") || id.includes("scheduler")) {
             return "vendor-react";
           }

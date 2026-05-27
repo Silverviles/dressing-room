@@ -1,7 +1,7 @@
 // @ts-nocheck
 import * as React from "react";
 import { useEffect, useRef } from "react";
-import { Button, CardFooter } from "@material-tailwind/react";
+import { Button, CardFooter } from "../common/ui";
 import { PoseService } from "../services/pose/poseLandmarker";
 
 const PoseDetection = ({ image }) => {
