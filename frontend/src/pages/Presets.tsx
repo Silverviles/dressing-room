@@ -1,7 +1,8 @@
+// @ts-nocheck
 import React, { useState } from 'react';
-import html2pdf from 'html2pdf.js';
-import {Button, Typography} from "@material-tailwind/react";
-import {fontFamily} from "html2canvas/dist/types/css/property-descriptors/font-family";
+import { useSelector } from "react-redux";
+import {Button, Typography} from "../common/ui";
+import { api } from "../api/client";
 
 interface ClothingItem {
   id: number;
@@ -28,6 +29,7 @@ const clothingItems: ClothingItem[] = [
 ];
 
 const App = () => {
+  const token = useSelector((state) => state.user.token);
   const [selectedGender, setSelectedGender] = useState('');
   const [selectedOccasion, setSelectedOccasion] = useState('');
   const [selectedCulture, setSelectedCulture] = useState('');
@@ -72,18 +74,24 @@ const App = () => {
   };
 
   const downloadPDF = () => {
-    const element = document.getElementById('pdf-content');
-    if (element) {
-      const options = {
-        margin: [0.5, 0.5, 0.5, 0.5], // adjust margins as needed
-        filename: 'outfit_recommendation.pdf',
-        image: { type: 'jpeg', quality: 0.98 },
-        html2canvas: { scale: 2, useCORS: true }, // ensure higher quality images
-        jsPDF: { unit: 'in', format: 'letter', orientation: 'portrait' },
-        pagebreak: { mode: ['avoid-all', 'css', 'legacy'] },
-      };
-      html2pdf().set(options).from(element).save();
-    }
+    const run = async () => {
+      if (!token) return;
+      const blob = await api.downloadRecommendationReport(token, {
+        items: recommendedClothing,
+        filters: {
+          gender: selectedGender,
+          occasion: selectedOccasion,
+          culture: selectedCulture,
+        },
+      });
+      const url = window.URL.createObjectURL(blob);
+      const link = document.createElement("a");
+      link.href = url;
+      link.download = "outfit-recommendations-report.pdf";
+      link.click();
+      window.URL.revokeObjectURL(url);
+    };
+    run();
   };
 
   return (

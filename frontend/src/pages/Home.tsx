@@ -1,7 +1,6 @@
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-nocheck
 
-import {Button, Card, CardBody, CardFooter, Typography} from "@material-tailwind/react";
+import {Button, Card, CardBody, CardFooter, Typography} from "../common/ui";
 import bg from "../images/bg.png";
 
 const CARD_CONTENTS = [

@@ -1,8 +1,5 @@
 // @ts-nocheck
-const someVariable: string = 42; // No type checking in this file
-
-import { useState, useEffect } from "react";
-import { Alert } from "@material-tailwind/react";
+import { Alert } from "./ui";
 
 function SuccessIcon() {
   return (

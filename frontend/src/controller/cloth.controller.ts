@@ -1,20 +1,29 @@
-import {collection, DocumentData, getDocs} from "firebase/firestore";
-import {db} from "../utils/firebase";
+import { api } from "../api/client";
 
-export const fetchClothes = async () => {
-    const clothes: DocumentData[] = [];
+export const fetchClothes = async (token) => {
+  return api.getClothes(token);
+};
 
-    try{
-        const querySnapshot = await getDocs(collection(db, "cloths"));
-        querySnapshot.forEach((doc) => {
-            clothes.push({id: doc.id, ...doc.data()});
-        });
+export const createCloth = async (token, formData) => {
+  return api.createCloth(token, formData);
+};
 
-        console.log("Clothes fetched successfully", clothes);
+export const updateCloth = async (token, id, formData) => {
+  return api.updateCloth(token, id, formData);
+};
 
-        return clothes;
-    }catch (error) {
-        console.error("Error fetching clothes", error);
-    }
+export const deleteCloth = async (token, id) => {
+  return api.deleteCloth(token, id);
+};
 
-}
+export const fetchFavorites = async (token) => {
+  return api.getFavorites(token);
+};
+
+export const addFavorite = async (token, clothId) => {
+  return api.addFavorite(token, clothId);
+};
+
+export const removeFavorite = async (token, clothId) => {
+  return api.removeFavorite(token, clothId);
+};

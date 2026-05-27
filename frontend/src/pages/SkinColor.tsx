@@ -1,6 +1,4 @@
 import React, { useState, useEffect, useRef } from 'react';
-import {backgroundImage} from "html2canvas/dist/types/css/property-descriptors/background-image";
-import * as url from "node:url";
 
 // Helper function to determine if the pixel is likely to be a skin tone based on RGB values
 const isSkinPixel = (r: number, g: number, b: number) => {
@@ -35,6 +33,16 @@ const SkinColorDetectionApp: React.FC = () => {
   const [isCameraActive, setIsCameraActive] = useState<boolean>(true);
   const videoRef = useRef<HTMLVideoElement | null>(null);
 
+  function stopCamera() {
+    if (stream) {
+      stream.getTracks().forEach(track => track.stop());
+    }
+    setStream(null);
+    if (videoRef.current) {
+      videoRef.current.srcObject = null;
+    }
+  }
+
   useEffect(() => {
     if (isCameraActive) {
       navigator.mediaDevices.getUserMedia({ video: true })
@@ -50,6 +58,7 @@ const SkinColorDetectionApp: React.FC = () => {
     return () => {
       stopCamera();
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isCameraActive]);
 
   const handleVideoStream = () => {
@@ -111,16 +120,6 @@ const SkinColorDetectionApp: React.FC = () => {
       return () => clearInterval(intervalId);
     }
   }, [isCameraActive, stream]);
-
-  const stopCamera = () => {
-    if (stream) {
-      stream.getTracks().forEach(track => track.stop());
-    }
-    setStream(null);
-    if (videoRef.current) {
-      videoRef.current.srcObject = null;
-    }
-  };
 
   const handleStopCamera = () => {
     stopCamera();

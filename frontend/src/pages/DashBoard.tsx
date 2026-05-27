@@ -1,4 +1,3 @@
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-nocheck
 
 
@@ -7,7 +6,7 @@ import Home from "./Home";
 import {Link, useLocation} from "react-router-dom";
 
 import ClothMenu from "./tabs/ClothMenu.tsx";
-import {List, ListItem, ListItemPrefix, Typography} from "@material-tailwind/react";
+import {List, ListItem, ListItemPrefix, Typography} from "../common/ui";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import { faShirt, faTShirt} from "@fortawesome/free-solid-svg-icons";
 import {DressRoom} from "./tabs/DressRoom.tsx";
