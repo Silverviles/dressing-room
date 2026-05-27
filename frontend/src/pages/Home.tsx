@@ -1,4 +1,3 @@
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-nocheck
 
 import {Button, Card, CardBody, CardFooter, Typography} from "@material-tailwind/react";
